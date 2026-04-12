@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 46867e574ad2070439ca0c2deed9ad4d
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/CircularProgressBar/CircularProgress003_Red.prefab
+  uploadId: 677298

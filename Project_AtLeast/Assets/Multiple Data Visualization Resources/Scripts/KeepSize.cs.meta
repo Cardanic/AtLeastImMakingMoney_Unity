@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d939b72c324d1fe4ba567113ffc7e414
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Scripts/KeepSize.cs
+  uploadId: 677298

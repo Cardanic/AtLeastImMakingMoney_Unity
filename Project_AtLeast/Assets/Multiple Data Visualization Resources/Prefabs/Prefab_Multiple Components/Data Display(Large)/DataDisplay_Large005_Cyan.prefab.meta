@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e4a889ae799cd4849991771f82015105
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Data Display(Large)/DataDisplay_Large005_Cyan.prefab
+  uploadId: 677298

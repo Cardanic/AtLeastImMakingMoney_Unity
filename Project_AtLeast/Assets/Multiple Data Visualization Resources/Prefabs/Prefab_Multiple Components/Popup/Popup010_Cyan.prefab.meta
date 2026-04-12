@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 845a3d0fbd7b40f4d9d945b7dc787ba5
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Popup/Popup010_Cyan.prefab
+  uploadId: 677298

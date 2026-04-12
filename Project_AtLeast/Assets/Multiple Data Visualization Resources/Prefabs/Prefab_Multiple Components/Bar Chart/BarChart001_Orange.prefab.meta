@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 48070d7d0269e1249a5a8de102c74e54
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Bar Chart/BarChart001_Orange.prefab
+  uploadId: 677298

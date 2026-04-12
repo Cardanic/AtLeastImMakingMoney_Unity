@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ec8dadd4de2c62e41a433010c1293d3c
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/CircularProgressBar/CircularProgress003_Orange.prefab
+  uploadId: 677298

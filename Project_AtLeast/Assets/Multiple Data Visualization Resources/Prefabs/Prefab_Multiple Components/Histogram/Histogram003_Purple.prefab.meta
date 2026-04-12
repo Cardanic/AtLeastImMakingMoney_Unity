@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 423efec3c97c0c54bbeea6ccb9528a13
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Histogram/Histogram003_Purple.prefab
+  uploadId: 677298

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c0a986b1e25e058479ec17bf983ee88b
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Pie and Doughnut Chart/Doughnut Chart 002.prefab
+  uploadId: 677298

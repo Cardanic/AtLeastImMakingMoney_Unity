@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ac489408f4c0f094c97a419b152fea1d
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Label/Label4_Blue.prefab
+  uploadId: 677298

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: c2a2531e5e8f09844a6e5a2c73fa1832
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Scripts/SimpleProgress1.cs
+  uploadId: 677298

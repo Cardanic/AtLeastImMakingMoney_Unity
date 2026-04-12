@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5d977e525aa8cbc4e821092750dba141
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Bar Chart/BarChart004_White.prefab
+  uploadId: 677298

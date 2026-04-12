@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d6ad291e45f2db646a9c458ac9b060ef
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Event Panel/EventPanel004.prefab
+  uploadId: 677298

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5f2ba757d1603e24eb6f71f513eb335f
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Bar Chart/BarChart006_Purple_Right.prefab
+  uploadId: 677298

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8c7c30fae0477594f96dd4fbf5f39d77
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Histogram/Histogram002_Orange.prefab
+  uploadId: 677298

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 89ad715b4b0ee62488c6bfbb4d81890c
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Buttons/Btn03.prefab
+  uploadId: 677298

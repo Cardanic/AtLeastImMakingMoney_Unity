@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b0c4db96fca821348869350b0b3f957c
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/SpiderDiagram/Line.prefab
+  uploadId: 677298

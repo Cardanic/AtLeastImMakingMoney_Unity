@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ce2b0820a3c03ce47865ffbd1a3b1f8e
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198835
+  packageName: Multiple Graph And Chart UI Pack
+  packageVersion: 1.6
+  assetPath: Assets/Multiple Data Visualization Resources/Prefabs/Prefab_Multiple
+    Components/Data Display/DataDisplay001_White.prefab
+  uploadId: 677298
