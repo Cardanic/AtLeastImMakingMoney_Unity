@@ -10,7 +10,7 @@ public class DuckStatemachine : MonoBehaviour
 
     private CharacterController characterController;
     private DuckAnimations duckAnimationScript;
-    private LookAtCamera lookAtCamera;
+   // private LookAtCamera lookAtCamera;
 
 
     void Update()
@@ -157,14 +157,7 @@ public class DuckStatemachine : MonoBehaviour
         duckAnimationScript.PlayAttackAnimation();
     }
 
-    private void FixedUpdate()
-    {
-        if(lookAtCamera != null)
-        {
-            lookAtCamera.SetText("My state: " +currentDuckState.ToString());
-        }
-       
-    }
+   
 
 
 
@@ -172,7 +165,7 @@ public class DuckStatemachine : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         duckAnimationScript = GetComponent<DuckAnimations>();
-        lookAtCamera = transform.GetComponentInChildren<LookAtCamera>();
+       // lookAtCamera = transform.GetComponentInChildren<LookAtCamera>();
     }
 
 
