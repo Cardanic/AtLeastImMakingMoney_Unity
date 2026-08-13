@@ -3809,6 +3809,7 @@ GameObject:
   - component: {fileID: 936756027}
   - component: {fileID: 936756026}
   - component: {fileID: 936756028}
+  - component: {fileID: 936756029}
   m_Layer: 0
   m_Name: DataManager
   m_TagString: Untagged
@@ -3863,6 +3864,25 @@ MonoBehaviour:
   militaryEconomicExposureScore: 0
   filterByWhoProfits: 1
   filterOnStart: 1
+--- !u!114 &936756029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936756025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8e2c91a5b64d7e8f1c0a9b6d4e2753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompanyIdUdpSender
+  dataSource: {fileID: 936756028}
+  port: 47777
+  debounceSeconds: 0.15
+  heartbeatSeconds: 2
+  discoverIntervalSeconds: 1
+  phoneTimeoutSeconds: 5
+  logSends: 0
 --- !u!1001 &938608966
 PrefabInstance:
   m_ObjectHideFlags: 0
