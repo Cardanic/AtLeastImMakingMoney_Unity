@@ -5,7 +5,7 @@ using UnityEngine;
 public class DuckAnimations : MonoBehaviour
 {
     private CharacterController charController;
-    private Animator animator;
+    //private Animator animator;
     private Vector3 previousPosition;
 
     bool firstFrame = true;
@@ -19,14 +19,14 @@ public class DuckAnimations : MonoBehaviour
 
         attackCooldown = 1f;
 
-        animator.SetTrigger("AttackTrigger");
+       // animator.SetTrigger("AttackTrigger");
     }
 
 
     private void Start()
     {
         charController = GetComponent<CharacterController>();
-        animator = GetComponentInChildren<Animator>();
+        //animator = GetComponentInChildren<Animator>();
 
     }
 
@@ -35,7 +35,7 @@ public class DuckAnimations : MonoBehaviour
     {
         float currentSpeed = charController.velocity.magnitude;
 
-        animator.SetFloat("MoveSpeed", currentSpeed);
+      //  animator.SetFloat("MoveSpeed", currentSpeed);
 
 
         Vector3 currentPosition = transform.position;

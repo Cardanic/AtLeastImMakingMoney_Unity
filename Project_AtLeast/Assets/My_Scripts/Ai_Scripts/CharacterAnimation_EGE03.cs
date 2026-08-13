@@ -7,22 +7,25 @@ public class CharacterAnimation_EGE03 : MonoBehaviour
 {
 
 
-    private Animator animator;
+    //private Animator animator;
     private CharacterController charController;
 
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
         charController = GetComponent<CharacterController>();
     }
 
     void Update()
     {
-        animator.SetFloat("MoveSpeed",charController.velocity.magnitude / 2.5f);
+       //animator.SetFloat("MoveSpeed",charController.velocity.magnitude / 2.5f);
+
+   
 
 
     }
+    
 
 
 }

@@ -1,0 +1,133 @@
+{
+  "generated": "2026-05-29",
+  "source_unified": "content/unified-match-review.json",
+  "eur_per_usd": 0.92,
+  "fx_note": "SIPRI revenue fields are EUR (millions USD × eur_per_usd, shown as whole euros). lobbying_cost is the EU register value (already EUR).",
+  "filter": {
+    "require_sp500_lobby_sipri": true,
+    "limit": 6,
+    "include_symbols": [
+      "PLTR"
+    ]
+  },
+  "stats": {
+    "unified_rows": 586,
+    "exported_rows": 7
+  },
+  "legend": {
+    "name": "Display name from unified company_name.",
+    "lobbying_economic_exposure_score": "0–1 vs max Lobbyfacts lobbying cost in the source CSV (2 decimals); no Lobbyfacts match on S&P rows → 0.",
+    "military_economic_exposure_score": "0.5–1 SIPRI Top-100 arms-revenue cohort score (2 decimals); null when no SIPRI org match.",
+    "industry": "GICS sector (S&P constituents).",
+    "sub_industry": "GICS sub-industry (S&P constituents).",
+    "well_known_for": "Short manual blurb when known; null otherwise.",
+    "military_revenue_2023": "SIPRI arms revenue for 2023, EUR.",
+    "military_revenue_2024": "SIPRI arms revenue for 2024, EUR.",
+    "total_revenue_2023": "SIPRI total revenue for 2023, EUR.",
+    "total_revenue_2024": "SIPRI total revenue for 2024, EUR.",
+    "total_revenue_change": "2024 minus 2023 total revenue in EUR with percent change.",
+    "arms_revenue_pct_of_total": "SIPRI arms as % of total for the latest year.",
+    "lobbying_cost_EU": "Lobbyfacts lobbying cost (EU register, EUR), formatted."
+  },
+  "data": [
+    {
+      "id": 28,
+      "name": "American International Group",
+      "lobbying_economic_exposure_score": 0.02,
+      "military_economic_exposure_score": 0.53,
+      "industry": "Financials",
+      "sub_industry": "Multi-line Insurance",
+      "well_known_for": "Insurance & financial services",
+      "military_revenue_2023": "3.652.400.000€",
+      "military_revenue_2024": "4.204.400.000€",
+      "total_revenue_2023": "5.014.000.000€",
+      "total_revenue_2024": "5.676.400.000€",
+      "total_revenue_change": "+662.400.000€ (+13%)",
+      "arms_revenue_pct_of_total": "74%",
+      "lobbying_cost_EU": "300.000€"
+    },
+    {
+      "id": 70,
+      "name": "Boeing",
+      "lobbying_economic_exposure_score": 0.06,
+      "military_economic_exposure_score": 0.73,
+      "industry": "Industrials",
+      "sub_industry": "Aerospace & Defense",
+      "well_known_for": "Commercial & military aircraft",
+      "military_revenue_2023": "28.612.000.000€",
+      "military_revenue_2024": "28.106.000.000€",
+      "total_revenue_2023": "71.566.800.000€",
+      "total_revenue_2024": "61.198.400.000€",
+      "total_revenue_change": "-10.368.400.000€ (-14%)",
+      "arms_revenue_pct_of_total": "46%",
+      "lobbying_cost_EU": "800.000€"
+    },
+    {
+      "id": 165,
+      "name": "Eaton Corporation",
+      "lobbying_economic_exposure_score": 0.02,
+      "military_economic_exposure_score": 0.51,
+      "industry": "Industrials",
+      "sub_industry": "Electrical Components & Equipment",
+      "well_known_for": "Energy management solutions",
+      "military_revenue_2023": "1.573.200.000€",
+      "military_revenue_2024": "1.720.400.000€",
+      "total_revenue_2023": "21.344.000.000€",
+      "total_revenue_2024": "22.889.600.000€",
+      "total_revenue_change": "+1.545.600.000€ (+7%)",
+      "arms_revenue_pct_of_total": "8%",
+      "lobbying_cost_EU": "300.000€"
+    },
+    {
+      "id": 238,
+      "name": "Honeywell",
+      "lobbying_economic_exposure_score": 0.16,
+      "military_economic_exposure_score": 0.54,
+      "industry": "Industrials",
+      "sub_industry": "Industrial Conglomerates",
+      "well_known_for": "Aerospace & industrial technology",
+      "military_revenue_2023": "4.590.800.000€",
+      "military_revenue_2024": "5.602.800.000€",
+      "total_revenue_2023": "33.727.200.000€",
+      "total_revenue_2024": "35.420.000.000€",
+      "total_revenue_change": "+1.692.800.000€ (+5%)",
+      "arms_revenue_pct_of_total": "16%",
+      "lobbying_cost_EU": "2.000.000€"
+    },
+    {
+      "id": 293,
+      "name": "Lockheed Martin",
+      "lobbying_economic_exposure_score": 0.01,
+      "military_economic_exposure_score": 1,
+      "industry": "Industrials",
+      "sub_industry": "Aerospace & Defense",
+      "well_known_for": "Defense & aerospace (F-35)",
+      "military_revenue_2023": "55.945.200.000€",
+      "military_revenue_2024": "59.478.000.000€",
+      "total_revenue_2023": "62.164.400.000€",
+      "total_revenue_2024": "65.356.800.000€",
+      "total_revenue_change": "+3.192.400.000€ (+5%)",
+      "arms_revenue_pct_of_total": "91%",
+      "lobbying_cost_EU": "100.000€"
+    },
+    {
+      "id": 390,
+      "name": "RTX Corporation",
+      "lobbying_economic_exposure_score": 0.02,
+      "military_economic_exposure_score": 0.83,
+      "industry": "Industrials",
+      "sub_industry": "Aerospace & Defense",
+      "well_known_for": "Aerospace & defense (Raytheon)",
+      "military_revenue_2023": "37.407.200.000€",
+      "military_revenue_2024": "40.112.000.000€",
+      "total_revenue_2023": "63.406.400.000€",
+      "total_revenue_2024": "74.280.800.000€",
+      "total_revenue_change": "+10.874.400.000€ (+17%)",
+      "arms_revenue_pct_of_total": "54%",
+      "lobbying_cost_EU": "200.000€"
+    }
+  ]
+}
+
+
+
