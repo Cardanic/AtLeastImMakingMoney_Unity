@@ -1,65 +1,47 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CompanyMapSpawner : MonoBehaviour
 {
     [Header("Prefab Variants (pick 1 randomly per company)")]
-    public List<GameObject> buildingPrefabVariants = new List<GameObject>(); // size 3
+    public List<GameObject> buildingPrefabVariants = new List<GameObject>();
 
     [Header("Spawn Area")]
-    public BoxCollider spawnArea; // drag MapSpawnArea here
+    public BoxCollider spawnArea;
 
     [Header("Optional")]
-    public Transform mapParent; // organizes spawned objects under one GameObject in Hierarchy
+    public Transform mapParent;
 
     [Header("Data Source")]
     public MsciWorldCompanyFilter dataSource;
 
-    public Dictionary<int, CompanyMapObject> SpawnedByCompanyId { get; private set; } = new Dictionary<int, CompanyMapObject>();
+    public Dictionary<int, CompanyMapObject> SpawnedByCompanyId { get; } = new Dictionary<int, CompanyMapObject>();
+
+    FilteredCompanyListener _listener;
 
     void OnEnable()
     {
-        if (dataSource != null)
-            dataSource.Filtered += HandleFiltered;
+        _listener = new FilteredCompanyListener(dataSource, HandleFiltered);
+        _listener.Subscribe();
     }
 
     void OnDisable()
     {
-        if (dataSource != null)
-            dataSource.Filtered -= HandleFiltered;
-    }
-
-
-    IEnumerator Start()
-    {
-        yield return null;
-
-        if (dataSource != null)
-            HandleFiltered(dataSource.FilteredCompanies);
+        _listener?.Unsubscribe();
+        _listener = null;
     }
 
     void HandleFiltered(IReadOnlyList<MsciWorldCompanyFilter.Organization> companies)
     {
-        // Clear previous buildings
-        CompanyRegistry.ClearMapObjects();
-        foreach (var kvp in SpawnedByCompanyId)
-        {
-            if (kvp.Value != null)
-                Destroy(kvp.Value.gameObject);
-        }
-        SpawnedByCompanyId.Clear();
-
-        foreach (var org in companies)
-            SpawnOne(org);
+        FilteredCompanySync.Apply(companies, SpawnedByCompanyId, SpawnOne, Despawn);
     }
 
-    void SpawnOne(MsciWorldCompanyFilter.Organization org)
+    CompanyMapObject SpawnOne(MsciWorldCompanyFilter.Organization org)
     {
         if (buildingPrefabVariants.Count == 0 || spawnArea == null)
         {
             Debug.LogWarning("CompanyMapSpawner: missing prefab variants or spawn area");
-            return;
+            return null;
         }
 
         GameObject prefab = buildingPrefabVariants[Random.Range(0, buildingPrefabVariants.Count)];
@@ -69,23 +51,30 @@ public class CompanyMapSpawner : MonoBehaviour
         instance.name = $"Building_{org.id}_{org.company_name}";
 
         CompanyMapObject mapObj = instance.GetComponent<CompanyMapObject>();
-        if (mapObj != null)
-        {
-            mapObj.Bind(org);
-            SpawnedByCompanyId[org.id] = mapObj;
-            CompanyRegistry.MapObjects[org.id] = mapObj;
-        }
-        else
+        if (mapObj == null)
         {
             Debug.LogWarning($"Prefab {prefab.name} has no CompanyMapObject component attached");
+            Destroy(instance);
+            return null;
         }
+
+        mapObj.Bind(org);
+        CompanyRegistry.RegisterMapObject(org.id, mapObj);
+        return mapObj;
+    }
+
+    void Despawn(int id, CompanyMapObject mapObj)
+    {
+        CompanyRegistry.UnregisterMapObject(id);
+        if (mapObj != null)
+            Destroy(mapObj.gameObject);
     }
 
     Vector3 GetRandomPointInBounds(Bounds bounds)
     {
         Vector3 point = Vector3.zero;
         int attempts = 0;
-        float minDistance = 5f; // tune to your building size
+        float minDistance = 5f;
 
         do
         {
@@ -103,7 +92,7 @@ public class CompanyMapSpawner : MonoBehaviour
     {
         foreach (var kvp in SpawnedByCompanyId)
         {
-            if (Vector3.Distance(kvp.Value.transform.position, point) < minDistance)
+            if (kvp.Value != null && Vector3.Distance(kvp.Value.transform.position, point) < minDistance)
                 return true;
         }
         return false;

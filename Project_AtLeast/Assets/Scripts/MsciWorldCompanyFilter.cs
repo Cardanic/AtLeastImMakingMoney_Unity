@@ -47,13 +47,15 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour
 
     List<Organization> _all = new();
     List<Organization> _filtered = new();
+    bool _loaded;
 
     public IReadOnlyList<Organization> AllCompanies => _all;
     public IReadOnlyList<Organization> FilteredCompanies => _filtered;
+    public bool HasFiltered { get; private set; }
 
     public event Action<IReadOnlyList<Organization>> Filtered;
 
-    void Start()
+    void Awake()
     {
         if (dataJson == null)
         {
@@ -62,7 +64,11 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour
         }
 
         Load(dataJson.text);
-        if (filterOnStart)
+    }
+
+    void Start()
+    {
+        if (filterOnStart && _loaded)
             ApplyFilter();
     }
 
@@ -71,7 +77,9 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour
     {
         var root = JsonConvert.DeserializeObject<OrganizationDataset>(json);
         _all = root?.data ?? new List<Organization>();
-        _filtered = new List<Organization>(_all);
+        _filtered = new List<Organization>();
+        _loaded = true;
+        HasFiltered = false;
     }
 
     /// <summary>
@@ -81,6 +89,7 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour
     public void ApplyFilter()
     {
         _filtered = _all.Where(PassesAnyEnabledFilter).ToList();
+        HasFiltered = true;
         Filtered?.Invoke(_filtered);
         Debug.Log(
             $"{nameof(MsciWorldCompanyFilter)}: {_filtered.Count} / {_all.Count} companies " +

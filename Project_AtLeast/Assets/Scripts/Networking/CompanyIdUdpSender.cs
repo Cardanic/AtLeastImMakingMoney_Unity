@@ -34,6 +34,7 @@ public sealed class CompanyIdUdpSender : MonoBehaviour
     bool logSends;
 
     ExhibitPhoneHub _hub;
+    FilteredCompanyListener _listener;
 
     void Awake()
     {
@@ -59,22 +60,16 @@ public sealed class CompanyIdUdpSender : MonoBehaviour
         );
         _hub.Start(Time.unscaledTime);
 
-        if (dataSource != null)
-            dataSource.Filtered += HandleFiltered;
+        _listener = new FilteredCompanyListener(dataSource, HandleFiltered);
+        _listener.Subscribe();
     }
 
     void OnDisable()
     {
-        if (dataSource != null)
-            dataSource.Filtered -= HandleFiltered;
+        _listener?.Unsubscribe();
+        _listener = null;
         _hub?.Dispose();
         _hub = null;
-    }
-
-    void Start()
-    {
-        if (dataSource != null)
-            HandleFiltered(dataSource.FilteredCompanies);
     }
 
     void Update()

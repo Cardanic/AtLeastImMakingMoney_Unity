@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,44 +5,47 @@ public class CompanyListSpawner : MonoBehaviour
 {
     public GameObject companyCardPrefab;
     public Transform contentParent;
+    public MsciWorldCompanyFilter dataSource;
 
-     public MsciWorldCompanyFilter dataSource; // drag your FilterManager GameObject her
+    readonly Dictionary<int, CompanyCardUI> _spawned = new();
+    FilteredCompanyListener _listener;
 
     void OnEnable()
     {
-        if (dataSource != null)
-            dataSource.Filtered += HandleFiltered;
+        _listener = new FilteredCompanyListener(dataSource, HandleFiltered);
+        _listener.Subscribe();
     }
 
     void OnDisable()
     {
-        if (dataSource != null)
-            dataSource.Filtered -= HandleFiltered;
-    }
-
-    IEnumerator Start()
-    {
-        // Wait a frame so dataSource.Start() has already run (Load + first ApplyFilter)
-        yield return null;
-
-        if (dataSource != null)
-            HandleFiltered(dataSource.FilteredCompanies);
+        _listener?.Unsubscribe();
+        _listener = null;
     }
 
     void HandleFiltered(IReadOnlyList<MsciWorldCompanyFilter.Organization> companies)
     {
-        // Clear previous cards
-        CompanyRegistry.ClearUICards();
-        foreach (Transform child in contentParent)
-            Destroy(child.gameObject);
+        FilteredCompanySync.Apply(companies, _spawned, SpawnOne, Despawn);
 
-        // Spawn fresh cards for the current filtered set
-        foreach (var org in companies)
+        for (int i = 0; i < companies.Count; i++)
         {
-            GameObject card = Instantiate(companyCardPrefab, contentParent);
-            CompanyCardUI ui = card.GetComponent<CompanyCardUI>();
-            ui.Bind(org);
-            CompanyRegistry.UICards[org.id] = ui;
+            if (_spawned.TryGetValue(companies[i].id, out var card) && card != null)
+                card.transform.SetSiblingIndex(i);
         }
+    }
+
+    CompanyCardUI SpawnOne(MsciWorldCompanyFilter.Organization org)
+    {
+        GameObject card = Instantiate(companyCardPrefab, contentParent);
+        CompanyCardUI ui = card.GetComponent<CompanyCardUI>();
+        ui.Bind(org);
+        CompanyRegistry.RegisterCard(org.id, ui);
+        return ui;
+    }
+
+    void Despawn(int id, CompanyCardUI ui)
+    {
+        CompanyRegistry.UnregisterCard(id);
+        if (ui != null)
+            Destroy(ui.gameObject);
     }
 }
