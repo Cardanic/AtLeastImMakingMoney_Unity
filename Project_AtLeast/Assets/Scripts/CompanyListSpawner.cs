@@ -35,8 +35,21 @@ public class CompanyListSpawner : MonoBehaviour
 
     CompanyCardUI SpawnOne(Organization org)
     {
+        if (companyCardPrefab == null || contentParent == null)
+        {
+            Debug.LogWarning("CompanyListSpawner: missing company card prefab or content parent");
+            return null;
+        }
+
         GameObject card = Instantiate(companyCardPrefab, contentParent);
         CompanyCardUI ui = card.GetComponent<CompanyCardUI>();
+        if (ui == null)
+        {
+            Debug.LogWarning($"Prefab {companyCardPrefab.name} has no CompanyCardUI component attached");
+            Destroy(card);
+            return null;
+        }
+
         ui.Bind(org);
         CompanyRegistry.RegisterCard(org.id, ui);
         return ui;
