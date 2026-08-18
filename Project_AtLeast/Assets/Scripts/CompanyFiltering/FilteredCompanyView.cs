@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// Subscribes to <see cref="MsciWorldCompanyFilter"/> and catches up if the filter
-/// already ran (listeners enabled after <c>Start</c>).
+/// Subscribes to <see cref="ICompanyFilterSource"/> and catches up if the filter
+/// already ran (listeners enabled after the first apply).
 /// </summary>
 public sealed class FilteredCompanyListener
 {
-    readonly MsciWorldCompanyFilter _source;
-    readonly Action<IReadOnlyList<MsciWorldCompanyFilter.Organization>> _handler;
+    readonly ICompanyFilterSource _source;
+    readonly Action<IReadOnlyList<Organization>> _handler;
 
     public FilteredCompanyListener(
-        MsciWorldCompanyFilter source,
-        Action<IReadOnlyList<MsciWorldCompanyFilter.Organization>> handler)
+        ICompanyFilterSource source,
+        Action<IReadOnlyList<Organization>> handler)
     {
         _source = source;
         _handler = handler;
@@ -44,9 +44,9 @@ public sealed class FilteredCompanyListener
 public static class FilteredCompanySync
 {
     public static void Apply<T>(
-        IReadOnlyList<MsciWorldCompanyFilter.Organization> companies,
+        IReadOnlyList<Organization> companies,
         Dictionary<int, T> spawned,
-        Func<MsciWorldCompanyFilter.Organization, T> spawn,
+        Func<Organization, T> spawn,
         Action<int, T> despawn)
         where T : class
     {

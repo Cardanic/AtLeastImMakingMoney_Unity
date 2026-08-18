@@ -83,7 +83,7 @@ public sealed class CompanyIdUdpSender : MonoBehaviour
         _hub = null;
     }
 
-    void HandleFiltered(IReadOnlyList<MsciWorldCompanyFilter.Organization> companies)
+    void HandleFiltered(IReadOnlyList<Organization> companies)
     {
         if (_hub == null)
             return;

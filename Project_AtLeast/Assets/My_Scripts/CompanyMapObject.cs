@@ -6,9 +6,9 @@ public class CompanyMapObject : MonoBehaviour
     [Tooltip("Drag the 3D TextMeshPro child here")]
     public TextMeshPro nameText;
 
-    public MsciWorldCompanyFilter.Organization BoundData { get; private set; }
+    public Organization BoundData { get; private set; }
 
-    public void Bind(MsciWorldCompanyFilter.Organization org)
+    public void Bind(Organization org)
     {
         BoundData = org;
         if (nameText != null)

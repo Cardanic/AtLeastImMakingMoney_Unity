@@ -22,7 +22,7 @@ public class CompanyListSpawner : MonoBehaviour
         _listener = null;
     }
 
-    void HandleFiltered(IReadOnlyList<MsciWorldCompanyFilter.Organization> companies)
+    void HandleFiltered(IReadOnlyList<Organization> companies)
     {
         FilteredCompanySync.Apply(companies, _spawned, SpawnOne, Despawn);
 
@@ -33,7 +33,7 @@ public class CompanyListSpawner : MonoBehaviour
         }
     }
 
-    CompanyCardUI SpawnOne(MsciWorldCompanyFilter.Organization org)
+    CompanyCardUI SpawnOne(Organization org)
     {
         GameObject card = Instantiate(companyCardPrefab, contentParent);
         CompanyCardUI ui = card.GetComponent<CompanyCardUI>();

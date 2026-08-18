@@ -31,12 +31,12 @@ public class CompanyMapSpawner : MonoBehaviour
         _listener = null;
     }
 
-    void HandleFiltered(IReadOnlyList<MsciWorldCompanyFilter.Organization> companies)
+    void HandleFiltered(IReadOnlyList<Organization> companies)
     {
         FilteredCompanySync.Apply(companies, SpawnedByCompanyId, SpawnOne, Despawn);
     }
 
-    CompanyMapObject SpawnOne(MsciWorldCompanyFilter.Organization org)
+    CompanyMapObject SpawnOne(Organization org)
     {
         if (buildingPrefabVariants.Count == 0 || spawnArea == null)
         {
