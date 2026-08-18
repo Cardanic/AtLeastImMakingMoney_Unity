@@ -11,9 +11,9 @@ public class CompanyCardUI : MonoBehaviour
 
     //private CompanyMetrics boundData;
 
-    private MsciWorldCompanyFilter.Organization boundData;
+    private Organization boundData;
 
-    public void Bind(MsciWorldCompanyFilter.Organization org)
+    public void Bind(Organization org)
     {
         boundData = org;
 
