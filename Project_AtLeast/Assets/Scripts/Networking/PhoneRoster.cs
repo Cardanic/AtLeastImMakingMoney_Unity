@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Net;
 
 /// <summary>
-/// In-memory roster of discovered phones. Assigns stable Phone 1 / Phone 2 slots for
-/// the whole Play session and tracks online / lost / reconnect without doing I/O.
+/// In-memory roster of discovered phones. Assigns stable Phone 1 / Phone 2 slots while
+/// a device is known, tracks online / lost / reconnect, and reuses the oldest timed-out
+/// slot when a new visitor arrives at capacity.
 /// </summary>
 public sealed class PhoneRoster
 {
@@ -64,13 +65,8 @@ public sealed class PhoneRoster
         if (deviceId.Length > 64)
             return AnnounceKind.Ignored;
 
-        if (!_slotByDeviceId.TryGetValue(deviceId, out int slot))
-        {
-            if (_slotByDeviceId.Count >= _maxPhones)
-                return AnnounceKind.Ignored;
-            slot = _nextSlot++;
-            _slotByDeviceId[deviceId] = slot;
-        }
+        if (!TryAssignSlot(deviceId, out int slot))
+            return AnnounceKind.Ignored;
 
         if (!_phones.TryGetValue(deviceId, out phone))
         {
@@ -108,6 +104,48 @@ public sealed class PhoneRoster
 
         for (int i = 0; i < _lostBuffer.Count; i++)
             onLost?.Invoke(_lostBuffer[i]);
+    }
+
+    bool TryAssignSlot(string deviceId, out int slot)
+    {
+        if (_slotByDeviceId.TryGetValue(deviceId, out slot))
+            return true;
+
+        if (_slotByDeviceId.Count < _maxPhones)
+        {
+            slot = _nextSlot++;
+            _slotByDeviceId[deviceId] = slot;
+            return true;
+        }
+
+        if (!TryReleaseOldestOfflineSlot(out slot))
+            return false;
+
+        _slotByDeviceId[deviceId] = slot;
+        return true;
+    }
+
+    bool TryReleaseOldestOfflineSlot(out int slot)
+    {
+        Phone oldest = null;
+        foreach (var phone in _phones.Values)
+        {
+            if (phone.IsOnline)
+                continue;
+            if (oldest == null || phone.LastSeen < oldest.LastSeen)
+                oldest = phone;
+        }
+
+        if (oldest == null)
+        {
+            slot = 0;
+            return false;
+        }
+
+        slot = oldest.Slot;
+        _phones.Remove(oldest.DeviceId);
+        _slotByDeviceId.Remove(oldest.DeviceId);
+        return true;
     }
 
     public void ForEachOnline(Action<Phone> action)
