@@ -33,6 +33,11 @@
 
 # Visual Studio cache directory
 .vs/
+.vsconfig
+
+# Project Auditor local defaults (created when the window is opened)
+/[Pp]roject[Ss]ettings/ProjectAuditorSettings.asset
+/[Pp]roject[Ss]ettings/ProjectAuditorSettings.asset.meta
 
 # Gradle cache directory
 .gradle/
