@@ -1,9 +1,11 @@
 using System;
+using System.Text;
 using UnityEngine;
 
 /// <summary>
 /// JSON datagram contract for the exhibit LAN. No I/O here — keep this file identical
 /// on the phone project.
+/// Uses JsonUtility (not Newtonsoft) so IL2CPP device builds can parse welcome/filter.
 /// </summary>
 public static class CompanyIdProtocol
 {
@@ -30,7 +32,17 @@ public static class CompanyIdProtocol
 
     public static byte[] ToBytes(Message message)
     {
-        return System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(message));
+        if (message == null)
+            return Array.Empty<byte>();
+        if (message.ids == null)
+            message.ids = Array.Empty<int>();
+        if (message.deviceId == null)
+            message.deviceId = "";
+        if (message.type == null)
+            message.type = "";
+
+        string json = JsonUtility.ToJson(message);
+        return Encoding.UTF8.GetBytes(json);
     }
 
     public static bool TryParse(byte[] bytes, int length, out Message message)
@@ -41,7 +53,7 @@ public static class CompanyIdProtocol
 
         try
         {
-            var json = System.Text.Encoding.UTF8.GetString(bytes, 0, length);
+            var json = Encoding.UTF8.GetString(bytes, 0, length);
             if (string.IsNullOrWhiteSpace(json))
                 return false;
 
@@ -97,14 +109,15 @@ public static class CompanyIdProtocol
         };
     }
 
-    public static Message Filter(int seq, int[] ids)
+    public static Message Filter(int seq, int[] ids, string deviceId = "")
     {
         return new Message
         {
             v = Version,
             type = TypeFilter,
             seq = seq,
-            ids = ids ?? Array.Empty<int>()
+            ids = ids ?? Array.Empty<int>(),
+            deviceId = deviceId ?? ""
         };
     }
 
@@ -129,5 +142,17 @@ public static class CompanyIdProtocol
         var copy = new int[source.Length];
         Array.Copy(source, copy, source.Length);
         return copy;
+    }
+
+    /// <summary>
+    /// Phone 1 → filteredIds[0], Phone 2 → filteredIds[1], …
+    /// Returns an empty array when the slot has no company (more phones than ids).
+    /// </summary>
+    public static int[] IdsForPhoneSlot(int[] filteredIds, int phoneSlot)
+    {
+        int index = phoneSlot - 1;
+        if (filteredIds == null || index < 0 || index >= filteredIds.Length)
+            return Array.Empty<int>();
+        return new[] { filteredIds[index] };
     }
 }

@@ -31,7 +31,7 @@ public sealed class CompanyIdUdpSender : MonoBehaviour
     float phoneTimeoutSeconds = 5f;
 
     [SerializeField]
-    bool logSends;
+    bool logSends = true;
 
     ExhibitPhoneHub _hub;
     FilteredCompanyListener _listener;
@@ -41,10 +41,27 @@ public sealed class CompanyIdUdpSender : MonoBehaviour
         Application.runInBackground = true;
         if (dataSource == null)
             dataSource = GetComponent<MsciWorldCompanyFilter>();
+        if (dataSource == null)
+            dataSource = GetComponentInParent<MsciWorldCompanyFilter>();
+        if (dataSource == null)
+            dataSource = FindFirstObjectByType<MsciWorldCompanyFilter>();
     }
 
     void OnEnable()
     {
+        if (dataSource == null)
+        {
+            Debug.LogError(
+                $"{nameof(CompanyIdUdpSender)}: no MsciWorldCompanyFilter assigned. " +
+                "Wire Data Source in the Inspector or place the filter on this object/parent."
+            );
+        }
+        else if (!dataSource.HasFiltered)
+        {
+            // Parent Awake should have filtered already; force one if something skipped it.
+            dataSource.ApplyFilter();
+        }
+
         _hub = new ExhibitPhoneHub(
             new ExhibitPhoneHub.Settings
             {
@@ -62,6 +79,14 @@ public sealed class CompanyIdUdpSender : MonoBehaviour
 
         _listener = new FilteredCompanyListener(dataSource, HandleFiltered);
         _listener.Subscribe();
+
+        if (dataSource != null)
+        {
+            Debug.Log(
+                $"{nameof(CompanyIdUdpSender)}: filter source ready=" +
+                $"{dataSource.HasFiltered} companies={dataSource.FilteredCompanies?.Count ?? 0}"
+            );
+        }
     }
 
     void OnDisable()

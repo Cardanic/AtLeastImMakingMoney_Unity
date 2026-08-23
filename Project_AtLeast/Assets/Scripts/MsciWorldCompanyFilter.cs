@@ -63,11 +63,16 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
         }
 
         Load(dataJson.text);
+        // Apply in Awake so CompanyIdUdpSender's OnEnable catch-up already has ids
+        // before phones are welcomed on the first Update ticks.
+        if (filterOnStart && _loaded)
+            ApplyFilter();
     }
 
     void Start()
     {
-        if (filterOnStart && _loaded)
+        // Safety: if something loaded data after Awake without filtering yet.
+        if (filterOnStart && _loaded && !HasFiltered)
             ApplyFilter();
     }
 
