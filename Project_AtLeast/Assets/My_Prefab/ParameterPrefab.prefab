@@ -589,6 +589,7 @@ GameObject:
   - component: {fileID: 3954138150567837940}
   - component: {fileID: 2079148259255986360}
   - component: {fileID: 4402514906370311564}
+  - component: {fileID: 9123456789012345678}
   m_Layer: 5
   m_Name: ParameterPrefab
   m_TagString: Untagged
@@ -666,7 +667,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7881862980303605698}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a24a1742610331b47beee874aa3ddf38, type: 3}
   m_Name: 
@@ -675,6 +676,19 @@ MonoBehaviour:
   image: {fileID: 6011895031276754513}
   speed: 0.5
   progress: {fileID: 8072354599183965046}
+--- !u!114 &9123456789012345678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7881862980303605698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c3a9e1f4b2d48c0a5e6f8d1c2b3a4e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  label: {fileID: 8072354599183965046}
 --- !u!1 &8169238366776372278
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,8 +771,8 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
+  m_MaxValue: 100
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:

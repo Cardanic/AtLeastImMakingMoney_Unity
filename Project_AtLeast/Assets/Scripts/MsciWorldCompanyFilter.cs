@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 /// <summary>
 /// Loads <c>content/msci-world-etf/data.json</c> and filters companies by three independent criteria.
-/// A company is kept if it matches <b>any</b> enabled criterion (OR).
+/// A company is kept only if it matches <b>every</b> enabled criterion (AND).
 /// </summary>
 /// <remarks>
 /// Requires the Newtonsoft Json package: Window → Package Manager →
@@ -20,23 +20,23 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
     TextAsset dataJson;
 
     [Header("1 — LobbyFacts")]
-    [Tooltip("When enabled: keep companies with matched_lobbyfacts == true and score >= threshold.")]
+    [Tooltip("When enabled: keep companies with lobbying score <= threshold (null / n/d always passes; dial 0 = n/d only).")]
     [SerializeField]
     bool filterByLobbying = true;
 
-    [SerializeField, Range(0f, 1f)]
+    [SerializeField, Range(0f, 100f)]
     float lobbyingEconomicExposureScore;
 
     [Header("2 — SIPRI / military")]
-    [Tooltip("When enabled: keep companies with matched_sipri == true and score >= threshold.")]
+    [Tooltip("When enabled: keep companies with military score <= threshold (null / n/d always passes; dial 0 = n/d only).")]
     [SerializeField]
     bool filterByMilitary = true;
 
-    [SerializeField, Range(0f, 1f)]
+    [SerializeField, Range(0f, 100f)]
     float militaryEconomicExposureScore;
 
     [Header("3 — Who Profits")]
-    [Tooltip("When enabled: keep companies with matched_who_profits == true.")]
+    [Tooltip("On: keep only Who Profits firms. Off: exclude Who Profits firms.")]
     [SerializeField]
     bool filterByWhoProfits = true;
 
@@ -97,7 +97,7 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
         Filtered?.Invoke(_filtered);
         Debug.Log(
             $"{nameof(MsciWorldCompanyFilter)}: {_filtered.Count} / {_all.Count} companies " +
-            $"(lobby≥{lobbyingEconomicExposureScore:0.###}, mil≥{militaryEconomicExposureScore:0.###}, " +
+            $"(lobby≤{lobbyingEconomicExposureScore:0}, mil≤{militaryEconomicExposureScore:0}, " +
             $"whoProfits={filterByWhoProfits})."
         );
     }
@@ -105,13 +105,13 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
     /// <summary>Inspector / UI setters — update one input then re-filter.</summary>
     public void SetLobbyingEconomicExposureScore(float value)
     {
-        lobbyingEconomicExposureScore = Mathf.Clamp01(value);
+        lobbyingEconomicExposureScore = Mathf.Clamp(Mathf.Round(value), 0f, 100f);
         ApplyFilter();
     }
 
     public void SetMilitaryEconomicExposureScore(float value)
     {
-        militaryEconomicExposureScore = Mathf.Clamp01(value);
+        militaryEconomicExposureScore = Mathf.Clamp(Mathf.Round(value), 0f, 100f);
         ApplyFilter();
     }
 

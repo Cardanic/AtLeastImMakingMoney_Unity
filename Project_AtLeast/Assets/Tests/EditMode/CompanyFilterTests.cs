@@ -4,7 +4,7 @@ using NUnit.Framework;
 public class CompanyFilterTests
 {
     [Test]
-    public void Apply_WhenNoCriteriaEnabled_KeepsEveryCompany()
+    public void Apply_WhenLobbyAndMilitaryOff_WhoProfitsFalse_ExcludesWhoProfitsFirms()
     {
         var companies = new[]
         {
@@ -14,7 +14,7 @@ public class CompanyFilterTests
 
         var result = CompanyFilter.Apply(companies, default);
 
-        Assert.AreEqual(2, result.Count);
+        Assert.AreEqual(new[] { 1 }, Ids(result));
     }
 
     [Test]
@@ -26,63 +26,89 @@ public class CompanyFilterTests
     }
 
     [Test]
-    public void Passes_WhoProfitsOnly_KeepsMatchingCompanies()
+    public void Passes_WhoProfitsTrue_KeepsOnlyWhoProfitsFirms()
     {
-        var criteria = WhoProfitsOnly();
+        var criteria = WhoProfitsOnly(include: true);
 
         Assert.IsTrue(CompanyFilter.Passes(CompanyTestFixtures.Org(1, whoProfits: true), criteria));
         Assert.IsFalse(CompanyFilter.Passes(CompanyTestFixtures.Org(2), criteria));
     }
 
     [Test]
-    public void Passes_Lobbying_RequiresMatchFlagAndScoreAtOrAboveThreshold()
+    public void Passes_WhoProfitsFalse_ExcludesWhoProfitsFirms()
     {
-        var criteria = LobbyingOnly(0.5f);
+        var criteria = WhoProfitsOnly(include: false);
 
-        Assert.IsTrue(CompanyFilter.Passes(
-            CompanyTestFixtures.Org(1, lobby: true, lobbyScore: 0.5f), criteria));
-        Assert.IsTrue(CompanyFilter.Passes(
-            CompanyTestFixtures.Org(2, lobby: true, lobbyScore: 0.9f), criteria));
-        Assert.IsFalse(CompanyFilter.Passes(
-            CompanyTestFixtures.Org(3, lobby: true, lobbyScore: 0.49f), criteria));
-        Assert.IsFalse(CompanyFilter.Passes(
-            CompanyTestFixtures.Org(4, lobby: false, lobbyScore: 1f), criteria));
-        Assert.IsFalse(CompanyFilter.Passes(
-            CompanyTestFixtures.Org(5, lobby: true), criteria));
+        Assert.IsTrue(CompanyFilter.Passes(CompanyTestFixtures.Org(1), criteria));
+        Assert.IsFalse(CompanyFilter.Passes(CompanyTestFixtures.Org(2, whoProfits: true), criteria));
     }
 
     [Test]
-    public void Passes_Military_RequiresMatchFlagAndScoreAtOrAboveThreshold()
+    public void Passes_Lobbying_NullPasses_RealScoresNeedDialAboveZero()
     {
-        var criteria = MilitaryOnly(0.25f);
+        var atZero = LobbyingOnly(0f);
+        var atFifty = LobbyingOnly(50f);
 
+        Assert.IsTrue(CompanyFilter.Passes(CompanyTestFixtures.Org(1), atZero));
+        Assert.IsFalse(CompanyFilter.Passes(
+            CompanyTestFixtures.Org(2, lobbyScore: 0f), atZero));
         Assert.IsTrue(CompanyFilter.Passes(
-            CompanyTestFixtures.Org(1, military: true, militaryScore: 0.25f), criteria));
+            CompanyTestFixtures.Org(3, lobbyScore: 0f), atFifty));
+        Assert.IsTrue(CompanyFilter.Passes(
+            CompanyTestFixtures.Org(4, lobbyScore: 50f), atFifty));
         Assert.IsFalse(CompanyFilter.Passes(
-            CompanyTestFixtures.Org(2, military: true, militaryScore: 0.24f), criteria));
-        Assert.IsFalse(CompanyFilter.Passes(
-            CompanyTestFixtures.Org(3, military: false, militaryScore: 1f), criteria));
+            CompanyTestFixtures.Org(5, lobbyScore: 51f), atFifty));
     }
 
     [Test]
-    public void Passes_UsesOrAcrossEnabledCriteria()
+    public void Passes_Military_NullPasses_RealScoresNeedDialAboveZero()
+    {
+        var atZero = MilitaryOnly(0f);
+        var atTwentyFive = MilitaryOnly(25f);
+
+        Assert.IsTrue(CompanyFilter.Passes(CompanyTestFixtures.Org(1), atZero));
+        Assert.IsFalse(CompanyFilter.Passes(
+            CompanyTestFixtures.Org(2, militaryScore: 0f), atZero));
+        Assert.IsTrue(CompanyFilter.Passes(
+            CompanyTestFixtures.Org(3, militaryScore: 25f), atTwentyFive));
+        Assert.IsFalse(CompanyFilter.Passes(
+            CompanyTestFixtures.Org(4, militaryScore: 26f), atTwentyFive));
+    }
+
+    [Test]
+    public void Passes_UsesAndAcrossEnabledCriteria()
     {
         var criteria = new CompanyFilterCriteria
         {
             FilterByLobbying = true,
-            LobbyingEconomicExposureScore = 0.8f,
+            LobbyingEconomicExposureScore = 80f,
             FilterByMilitary = true,
-            MilitaryEconomicExposureScore = 0.8f,
+            MilitaryEconomicExposureScore = 80f,
             FilterByWhoProfits = true
         };
 
         Assert.IsTrue(CompanyFilter.Passes(
-            CompanyTestFixtures.Org(1, whoProfits: true), criteria));
+            CompanyTestFixtures.Org(
+                1,
+                lobbyScore: 80f,
+                militaryScore: 80f,
+                whoProfits: true),
+            criteria));
         Assert.IsTrue(CompanyFilter.Passes(
-            CompanyTestFixtures.Org(2, lobby: true, lobbyScore: 0.8f), criteria));
-        Assert.IsTrue(CompanyFilter.Passes(
-            CompanyTestFixtures.Org(3, military: true, militaryScore: 0.8f), criteria));
-        Assert.IsFalse(CompanyFilter.Passes(CompanyTestFixtures.Org(4), criteria));
+            CompanyTestFixtures.Org(2, whoProfits: true), criteria));
+        Assert.IsFalse(CompanyFilter.Passes(
+            CompanyTestFixtures.Org(3), criteria));
+        Assert.IsFalse(CompanyFilter.Passes(
+            CompanyTestFixtures.Org(4, lobbyScore: 80f), criteria));
+        Assert.IsFalse(CompanyFilter.Passes(
+            CompanyTestFixtures.Org(5, militaryScore: 80f), criteria));
+        Assert.IsFalse(CompanyFilter.Passes(
+            CompanyTestFixtures.Org(
+                6,
+                lobbyScore: 81f,
+                militaryScore: 80f,
+                whoProfits: true),
+            criteria));
     }
 
     [Test]
@@ -95,7 +121,7 @@ public class CompanyFilterTests
             CompanyTestFixtures.Org(2, whoProfits: true)
         };
 
-        var result = CompanyFilter.Apply(companies, WhoProfitsOnly());
+        var result = CompanyFilter.Apply(companies, WhoProfitsOnly(include: true));
 
         Assert.AreEqual(new[] { 3, 2 }, Ids(result));
     }
@@ -103,12 +129,12 @@ public class CompanyFilterTests
     [Test]
     public void Passes_NullOrganization_ReturnsFalse()
     {
-        Assert.IsFalse(CompanyFilter.Passes(null, WhoProfitsOnly()));
+        Assert.IsFalse(CompanyFilter.Passes(null, WhoProfitsOnly(include: true)));
     }
 
-    static CompanyFilterCriteria WhoProfitsOnly()
+    static CompanyFilterCriteria WhoProfitsOnly(bool include)
     {
-        return new CompanyFilterCriteria { FilterByWhoProfits = true };
+        return new CompanyFilterCriteria { FilterByWhoProfits = include };
     }
 
     static CompanyFilterCriteria LobbyingOnly(float threshold)

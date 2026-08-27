@@ -160,7 +160,7 @@
         "London Stock Exchange"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.514
+      "military_economic_exposure_score": 52
     },
     {
       "id": 5,
@@ -240,8 +240,8 @@
       "traded_in": [
         "Toronto Stock Exchange"
       ],
-      "lobbying_economic_exposure_score": 0.038,
-      "military_economic_exposure_score": 0.005
+      "lobbying_economic_exposure_score": 4,
+      "military_economic_exposure_score": 1
     },
     {
       "id": 7,
@@ -282,7 +282,7 @@
       "traded_in": [
         "NASDAQ"
       ],
-      "lobbying_economic_exposure_score": 0.25,
+      "lobbying_economic_exposure_score": 25,
       "military_economic_exposure_score": null
     },
     {
@@ -325,7 +325,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.013,
+      "lobbying_economic_exposure_score": 2,
       "military_economic_exposure_score": null
     },
     {
@@ -364,7 +364,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.01
+      "military_economic_exposure_score": 2
     },
     {
       "id": 10,
@@ -401,8 +401,8 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.038,
-      "military_economic_exposure_score": 0.011
+      "lobbying_economic_exposure_score": 4,
+      "military_economic_exposure_score": 2
     },
     {
       "id": 11,
@@ -446,7 +446,7 @@
         "Tel Aviv Stock Exchange"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.081
+      "military_economic_exposure_score": 9
     },
     {
       "id": 12,
@@ -530,7 +530,7 @@
       "traded_in": [
         "NASDAQ"
       ],
-      "lobbying_economic_exposure_score": 0.063,
+      "lobbying_economic_exposure_score": 7,
       "military_economic_exposure_score": null
     },
     {
@@ -613,7 +613,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.113,
+      "lobbying_economic_exposure_score": 12,
       "military_economic_exposure_score": null
     },
     {
@@ -652,7 +652,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.059
+      "military_economic_exposure_score": 6
     },
     {
       "id": 17,
@@ -690,7 +690,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.511
+      "military_economic_exposure_score": 52
     },
     {
       "id": 18,
@@ -731,7 +731,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.025,
+      "lobbying_economic_exposure_score": 3,
       "military_economic_exposure_score": null
     },
     {
@@ -817,8 +817,8 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.038,
-      "military_economic_exposure_score": 0.002
+      "lobbying_economic_exposure_score": 4,
+      "military_economic_exposure_score": 1
     },
     {
       "id": 21,
@@ -855,8 +855,8 @@
       "traded_in": [
         "Xetra"
       ],
-      "lobbying_economic_exposure_score": 0.075,
-      "military_economic_exposure_score": 0.017
+      "lobbying_economic_exposure_score": 8,
+      "military_economic_exposure_score": 2
     },
     {
       "id": 22,
@@ -896,7 +896,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.05,
+      "lobbying_economic_exposure_score": 5,
       "military_economic_exposure_score": null
     },
     {
@@ -935,7 +935,7 @@
         "NASDAQ"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.078
+      "military_economic_exposure_score": 8
     },
     {
       "id": 24,
@@ -973,7 +973,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0
+      "military_economic_exposure_score": 1
     },
     {
       "id": 25,
@@ -1097,7 +1097,7 @@
         "Tokyo Stock Exchange"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.024
+      "military_economic_exposure_score": 3
     },
     {
       "id": 28,
@@ -1135,7 +1135,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0
+      "military_economic_exposure_score": 1
     },
     {
       "id": 29,
@@ -1173,7 +1173,7 @@
         "Oslo Bors Asa"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.01
+      "military_economic_exposure_score": 1
     },
     {
       "id": 30,
@@ -1211,7 +1211,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.237
+      "military_economic_exposure_score": 24
     },
     {
       "id": 31,
@@ -1249,7 +1249,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.129
+      "military_economic_exposure_score": 13
     },
     {
       "id": 32,
@@ -1289,8 +1289,8 @@
       "traded_in": [
         "Borsa Italiana"
       ],
-      "lobbying_economic_exposure_score": 0.038,
-      "military_economic_exposure_score": 0.2
+      "lobbying_economic_exposure_score": 4,
+      "military_economic_exposure_score": 20
     },
     {
       "id": 33,
@@ -1327,8 +1327,8 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.013,
-      "military_economic_exposure_score": 1
+      "lobbying_economic_exposure_score": 2,
+      "military_economic_exposure_score": 100
     },
     {
       "id": 34,
@@ -1366,7 +1366,7 @@
         "London Stock Exchange"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.001
+      "military_economic_exposure_score": 1
     },
     {
       "id": 35,
@@ -1409,7 +1409,7 @@
       "traded_in": [
         "NASDAQ"
       ],
-      "lobbying_economic_exposure_score": 0.875,
+      "lobbying_economic_exposure_score": 88,
       "military_economic_exposure_score": null
     },
     {
@@ -1447,8 +1447,8 @@
       "traded_in": [
         "Tokyo Stock Exchange"
       ],
-      "lobbying_economic_exposure_score": 0.075,
-      "military_economic_exposure_score": 0.011
+      "lobbying_economic_exposure_score": 8,
+      "military_economic_exposure_score": 2
     },
     {
       "id": 37,
@@ -1485,8 +1485,8 @@
       "traded_in": [
         "Tokyo Stock Exchange"
       ],
-      "lobbying_economic_exposure_score": 0.05,
-      "military_economic_exposure_score": 0.061
+      "lobbying_economic_exposure_score": 5,
+      "military_economic_exposure_score": 7
     },
     {
       "id": 38,
@@ -1570,7 +1570,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.038,
+      "lobbying_economic_exposure_score": 4,
       "military_economic_exposure_score": null
     },
     {
@@ -1608,8 +1608,8 @@
       "traded_in": [
         "Tokyo Stock Exchange"
       ],
-      "lobbying_economic_exposure_score": 0.001,
-      "military_economic_exposure_score": 0.006
+      "lobbying_economic_exposure_score": 1,
+      "military_economic_exposure_score": 1
     },
     {
       "id": 41,
@@ -1647,7 +1647,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.578
+      "military_economic_exposure_score": 58
     },
     {
       "id": 42,
@@ -1688,7 +1688,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.038,
+      "lobbying_economic_exposure_score": 4,
       "military_economic_exposure_score": null
     },
     {
@@ -1728,7 +1728,7 @@
       "traded_in": [
         "NASDAQ"
       ],
-      "lobbying_economic_exposure_score": 0.013,
+      "lobbying_economic_exposure_score": 2,
       "military_economic_exposure_score": null
     },
     {
@@ -1767,7 +1767,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.025
+      "military_economic_exposure_score": 3
     },
     {
       "id": 45,
@@ -1847,8 +1847,8 @@
       "traded_in": [
         "Xetra"
       ],
-      "lobbying_economic_exposure_score": 0.063,
-      "military_economic_exposure_score": 0.112
+      "lobbying_economic_exposure_score": 7,
+      "military_economic_exposure_score": 12
     },
     {
       "id": 47,
@@ -1888,8 +1888,8 @@
       "traded_in": [
         "London Stock Exchange"
       ],
-      "lobbying_economic_exposure_score": 0.025,
-      "military_economic_exposure_score": 0.095
+      "lobbying_economic_exposure_score": 3,
+      "military_economic_exposure_score": 10
     },
     {
       "id": 48,
@@ -1926,8 +1926,8 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.025,
-      "military_economic_exposure_score": 0.669
+      "lobbying_economic_exposure_score": 3,
+      "military_economic_exposure_score": 67
     },
     {
       "id": 49,
@@ -1964,8 +1964,8 @@
       "traded_in": [
         "Nyse Euronext - Euronext Paris"
       ],
-      "lobbying_economic_exposure_score": 0.05,
-      "military_economic_exposure_score": 0.066
+      "lobbying_economic_exposure_score": 5,
+      "military_economic_exposure_score": 7
     },
     {
       "id": 50,
@@ -2002,8 +2002,8 @@
       "traded_in": [
         "NASDAQ"
       ],
-      "lobbying_economic_exposure_score": 0.025,
-      "military_economic_exposure_score": 0.01
+      "lobbying_economic_exposure_score": 3,
+      "military_economic_exposure_score": 2
     },
     {
       "id": 51,
@@ -2043,7 +2043,7 @@
       "traded_in": [
         "Nyse Euronext - Euronext Brussels"
       ],
-      "lobbying_economic_exposure_score": 0.113,
+      "lobbying_economic_exposure_score": 12,
       "military_economic_exposure_score": null
     },
     {
@@ -2082,7 +2082,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.014
+      "military_economic_exposure_score": 2
     },
     {
       "id": 53,
@@ -2160,7 +2160,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.034
+      "military_economic_exposure_score": 4
     },
     {
       "id": 55,
@@ -2197,8 +2197,8 @@
       "traded_in": [
         "Nyse Euronext - Euronext Paris"
       ],
-      "lobbying_economic_exposure_score": 0.088,
-      "military_economic_exposure_score": 0.168
+      "lobbying_economic_exposure_score": 9,
+      "military_economic_exposure_score": 17
     },
     {
       "id": 56,
@@ -2237,7 +2237,7 @@
       "traded_in": [
         "Tokyo Stock Exchange"
       ],
-      "lobbying_economic_exposure_score": 0.088,
+      "lobbying_economic_exposure_score": 9,
       "military_economic_exposure_score": null
     },
     {
@@ -2276,7 +2276,7 @@
         "NYSE"
       ],
       "lobbying_economic_exposure_score": null,
-      "military_economic_exposure_score": 0.032
+      "military_economic_exposure_score": 4
     },
     {
       "id": 58,
