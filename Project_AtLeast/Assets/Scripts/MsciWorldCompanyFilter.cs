@@ -43,6 +43,7 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
     [Header("Runtime")]
     [SerializeField]
     bool filterOnStart = true;
+    
 
     List<Organization> _all = new();
     List<Organization> _filtered = new();
