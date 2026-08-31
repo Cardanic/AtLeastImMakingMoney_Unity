@@ -10221,6 +10221,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckStatemachine
   currentDuckState: 0
+  characterController: {fileID: 0}
+  duckAnimationScript: {fileID: 0}
 --- !u!136 &163133850
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10256,6 +10258,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8240d8747548b43901a16837f982d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckAnimations
+  charController: {fileID: 0}
+  previousPosition: {x: 0, y: 0, z: 0}
+  firstFrame: 1
+  attackCooldown: 0
 --- !u!1 &171043224
 GameObject:
   m_ObjectHideFlags: 0
@@ -10303,6 +10309,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8240d8747548b43901a16837f982d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckAnimations
+  charController: {fileID: 0}
+  previousPosition: {x: 0, y: 0, z: 0}
+  firstFrame: 1
+  attackCooldown: 0
 --- !u!114 &171043227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10316,6 +10326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckStatemachine
   currentDuckState: 1
+  characterController: {fileID: 0}
+  duckAnimationScript: {fileID: 0}
 --- !u!143 &171043228
 CharacterController:
   m_ObjectHideFlags: 0
@@ -10502,6 +10514,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8240d8747548b43901a16837f982d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckAnimations
+  charController: {fileID: 0}
+  previousPosition: {x: 0, y: 0, z: 0}
+  firstFrame: 1
+  attackCooldown: 0
 --- !u!114 &190302759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10515,6 +10531,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckStatemachine
   currentDuckState: 0
+  characterController: {fileID: 0}
+  duckAnimationScript: {fileID: 0}
 --- !u!143 &190302760
 CharacterController:
   m_ObjectHideFlags: 0
@@ -16596,6 +16614,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8240d8747548b43901a16837f982d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckAnimations
+  charController: {fileID: 0}
+  previousPosition: {x: 0, y: 0, z: 0}
+  firstFrame: 1
+  attackCooldown: 0
 --- !u!114 &473654951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16609,6 +16631,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckStatemachine
   currentDuckState: 2
+  characterController: {fileID: 0}
+  duckAnimationScript: {fileID: 0}
 --- !u!143 &473654952
 CharacterController:
   m_ObjectHideFlags: 0
@@ -32715,8 +32739,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c3d4e5f6789012345678abcdef0123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Esp32SerialFilterBridge
-  connectOnStart: 0
-  portName: 
+  connectOnStart: 1
+  portName: COM4
   baudRate: 115200
   filter: {fileID: 936756028}
   lobbySlider: {fileID: 1224526721799185809}
@@ -38015,6 +38039,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8240d8747548b43901a16837f982d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckAnimations
+  charController: {fileID: 0}
+  previousPosition: {x: 0, y: 0, z: 0}
+  firstFrame: 1
+  attackCooldown: 0
 --- !u!114 &1082835451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38028,6 +38056,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckStatemachine
   currentDuckState: 1
+  characterController: {fileID: 0}
+  duckAnimationScript: {fileID: 0}
 --- !u!143 &1082835452
 CharacterController:
   m_ObjectHideFlags: 0
@@ -38494,6 +38524,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8240d8747548b43901a16837f982d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckAnimations
+  charController: {fileID: 0}
+  previousPosition: {x: 0, y: 0, z: 0}
+  firstFrame: 1
+  attackCooldown: 0
 --- !u!114 &1132851501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38507,6 +38541,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckStatemachine
   currentDuckState: 1
+  characterController: {fileID: 0}
+  duckAnimationScript: {fileID: 0}
 --- !u!143 &1132851502
 CharacterController:
   m_ObjectHideFlags: 0
@@ -38849,6 +38885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement_EGE03
   speed: 3
   playerBody: {fileID: 0}
+  characterController: {fileID: 0}
 --- !u!143 &1227288221
 CharacterController:
   m_ObjectHideFlags: 0
@@ -39075,6 +39112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8240d8747548b43901a16837f982d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckAnimations
+  charController: {fileID: 0}
+  previousPosition: {x: 0, y: 0, z: 0}
+  firstFrame: 1
+  attackCooldown: 0
 --- !u!114 &1277072303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39088,6 +39129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckStatemachine
   currentDuckState: 0
+  characterController: {fileID: 0}
+  duckAnimationScript: {fileID: 0}
 --- !u!143 &1277072304
 CharacterController:
   m_ObjectHideFlags: 0
@@ -39909,6 +39952,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8240d8747548b43901a16837f982d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckAnimations
+  charController: {fileID: 0}
+  previousPosition: {x: 0, y: 0, z: 0}
+  firstFrame: 1
+  attackCooldown: 0
 --- !u!114 &1456073498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39922,6 +39969,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckStatemachine
   currentDuckState: 0
+  characterController: {fileID: 0}
+  duckAnimationScript: {fileID: 0}
 --- !u!143 &1456073499
 CharacterController:
   m_ObjectHideFlags: 0
@@ -40881,6 +40930,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement_EGE03
   speed: 10
   playerBody: {fileID: 236311266}
+  characterController: {fileID: 0}
 --- !u!65 &1692179748
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46598,6 +46648,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8240d8747548b43901a16837f982d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckAnimations
+  charController: {fileID: 0}
+  previousPosition: {x: 0, y: 0, z: 0}
+  firstFrame: 1
+  attackCooldown: 0
 --- !u!114 &1858056019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46611,6 +46665,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckStatemachine
   currentDuckState: 2
+  characterController: {fileID: 0}
+  duckAnimationScript: {fileID: 0}
 --- !u!143 &1858056020
 CharacterController:
   m_ObjectHideFlags: 0
@@ -46683,6 +46739,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8240d8747548b43901a16837f982d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckAnimations
+  charController: {fileID: 0}
+  previousPosition: {x: 0, y: 0, z: 0}
+  firstFrame: 1
+  attackCooldown: 0
 --- !u!114 &1879981378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46696,6 +46756,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DuckStatemachine
   currentDuckState: 2
+  characterController: {fileID: 0}
+  duckAnimationScript: {fileID: 0}
 --- !u!143 &1879981379
 CharacterController:
   m_ObjectHideFlags: 0
