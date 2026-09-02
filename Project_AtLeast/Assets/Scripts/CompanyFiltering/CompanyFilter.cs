@@ -23,6 +23,7 @@ public static class CompanyFilter
                 filtered.Add(all[i]);
         }
 
+        SortByTotalRevenue2025Desc(filtered);
         return filtered;
     }
 
@@ -43,6 +44,28 @@ public static class CompanyFilter
             return false;
 
         return true;
+    }
+
+    /// <summary>Highest <c>total_revenue_2025_amount</c> first; missing amounts last.</summary>
+    public static void SortByTotalRevenue2025Desc(List<Organization> companies)
+    {
+        if (companies == null || companies.Count < 2)
+            return;
+
+        companies.Sort(CompareTotalRevenue2025Desc);
+    }
+
+    static int CompareTotalRevenue2025Desc(Organization a, Organization b)
+    {
+        double aAmount = a?.total_revenue_2025_amount ?? double.MinValue;
+        double bAmount = b?.total_revenue_2025_amount ?? double.MinValue;
+        int byAmount = bAmount.CompareTo(aAmount);
+        if (byAmount != 0)
+            return byAmount;
+
+        int aId = a?.id ?? 0;
+        int bId = b?.id ?? 0;
+        return aId.CompareTo(bId);
     }
 
     static bool MatchesLobbying(Organization org, float threshold)

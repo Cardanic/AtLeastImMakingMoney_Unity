@@ -31,6 +31,7 @@ public sealed class Organization
     public double? total_revenue_2024_euro;
     public string total_revenue_2025;
     public double? total_revenue_2025_euro;
+    public double? total_revenue_2025_amount;
     public string total_revenue_2023;
     public double? total_revenue_2023_euro;
     public string total_revenue_change;

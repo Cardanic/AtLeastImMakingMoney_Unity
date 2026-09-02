@@ -116,18 +116,39 @@ public class CompanyFilterTests
     }
 
     [Test]
-    public void Apply_PreservesSourceOrder()
+    public void Apply_SortsByTotalRevenue2025AmountDescending()
     {
         var companies = new[]
         {
-            CompanyTestFixtures.Org(3, whoProfits: true),
-            CompanyTestFixtures.Org(1),
-            CompanyTestFixtures.Org(2, whoProfits: true)
+            new Organization
+            {
+                id = 1,
+                matched_who_profits = true,
+                total_revenue_2025_amount = 10_000_000
+            },
+            new Organization
+            {
+                id = 2,
+                matched_who_profits = true,
+                total_revenue_2025_amount = 90_000_000
+            },
+            new Organization
+            {
+                id = 3,
+                matched_who_profits = true,
+                total_revenue_2025_amount = null
+            },
+            new Organization
+            {
+                id = 4,
+                matched_who_profits = true,
+                total_revenue_2025_amount = 50_000_000
+            }
         };
 
         var result = CompanyFilter.Apply(companies, WhoProfitsOnly(include: true));
 
-        Assert.AreEqual(new[] { 3, 2 }, Ids(result));
+        Assert.AreEqual(new[] { 2, 4, 1, 3 }, Ids(result));
     }
 
     [Test]
