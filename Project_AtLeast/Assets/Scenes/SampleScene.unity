@@ -15612,6 +15612,10 @@ MonoBehaviour:
   - {fileID: 3152218585636195570, guid: 38073a95e852c3944b7c35a04134cd1f, type: 3}
   - {fileID: 3152218585636195570, guid: fb411f75623ac2849a69dea1ab5e2f1c, type: 3}
   spawnArea: {fileID: 1309457252}
+  minSpacing: 22
+  edgePadding: 8
+  cellJitter: 0.3
+  maxPlacementAttempts: 80
   mapParent: {fileID: 474193061}
   dataSource: {fileID: 936756028}
 --- !u!4 &346369730
@@ -15779,14 +15783,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be758fe4509aff6479d893480c6f6fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFocus
-  moveSpeed: 10
-  heightOffset: 20
-  backOffset: 10
-  arriveThreshold: 0.05
-  pauseAtEachStop: 1.5
-  loopTour: 1
   homeTransform: {fileID: 0}
-  pauseBeforeReturningHome: 1
+  zoomOutDuration: 2
+  zoomOutCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  orbitRadiusMin: 12
+  fitMargin: 1.3
+  tourPitchDegrees: -1
+  orbitSweepDegrees: 180
+  orbitDuration: 6
+  orbitCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  approachSpeed: 20
+  approachMinDuration: 0.6
+  approachMaxDuration: 3.5
+  approachCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  focusDuration: 0.8
 --- !u!1 &438040954
 GameObject:
   m_ObjectHideFlags: 0
@@ -37527,8 +37552,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1390420768}
   m_HandleRect: {fileID: 1390420767}
   m_Direction: 0
-  m_Value: 0.50000197
-  m_Size: 0.72641
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -38981,6 +39006,10 @@ PrefabInstance:
     - target: {fileID: 8072354599183965046, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
       propertyPath: m_text
       value: n/d
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072354599183965046, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
+      propertyPath: m_fontSize
+      value: 43.4
       objectReference: {fileID: 0}
     - target: {fileID: 8253068580554082171, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
       propertyPath: m_LocalScale.x

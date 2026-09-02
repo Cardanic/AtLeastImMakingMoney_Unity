@@ -280,4 +280,17 @@ public class CompanyMapSpawner : MonoBehaviour
         }
         return positions;
     }
+
+    /// <summary>Lookup the spawned building transform for a company id, if present.</summary>
+    public bool TryGetSpawnedTransform(int companyId, out Transform building)
+    {
+        if (SpawnedByCompanyId.TryGetValue(companyId, out CompanyMapObject mapObj) && mapObj != null)
+        {
+            building = mapObj.transform;
+            return true;
+        }
+
+        building = null;
+        return false;
+    }
 }

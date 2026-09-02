@@ -4,9 +4,10 @@ using UnityEngine;
 
 /// <summary>
 /// Watches the company filters. While they're actively being changed, the
-/// camera snaps back to the home/overview position. Once changes settle for
-/// <see cref="debounceSeconds"/>, the camera tours every building currently
-/// spawned — or just stays home if no buildings are spawned at all.
+/// camera pulls back to the home/overview pose. Once changes settle for
+/// <see cref="tourStartDelay"/> and zoom-out has finished, the camera tours
+/// every spawned building in <see cref="MsciWorldCompanyFilter.FilteredCompanies"/>
+/// order — or stays home if none are spawned.
 /// </summary>
 public class CameraTourManager : MonoBehaviour
 {
@@ -14,10 +15,11 @@ public class CameraTourManager : MonoBehaviour
     public MsciWorldCompanyFilter dataSource;
     public CompanyMapSpawner spawner;
 
-    [Header("Debounce")]
-    [Tooltip("Seconds of no filter changes before the tour starts.")]
-    public float debounceSeconds = 1f;
+    [Header("Tour start")]
+    [Tooltip("Seconds with no Filtered events before a tour may start (after zoom-out completes).")]
+    public float tourStartDelay = 3f;
 
+    readonly List<Transform> _tourStops = new();
     Coroutine debounceCoroutine;
 
     void OnEnable()
@@ -37,8 +39,6 @@ public class CameraTourManager : MonoBehaviour
 
     void OnFiltersChanged(IReadOnlyList<Organization> _)
     {
-        // Filters are "active" right now — interrupt any tour and go home
-        // immediately, then restart the settle countdown.
         if (CameraFocus.Instance != null)
             CameraFocus.Instance.ReturnHome();
 
@@ -50,21 +50,49 @@ public class CameraTourManager : MonoBehaviour
 
     IEnumerator DebounceThenTour()
     {
-        yield return new WaitForSeconds(debounceSeconds);
+        yield return new WaitForSeconds(tourStartDelay);
+
+        if (CameraFocus.Instance == null)
+        {
+            debounceCoroutine = null;
+            yield break;
+        }
+
+        while (CameraFocus.Instance != null && CameraFocus.Instance.State != CameraFocus.MotionState.Idle)
+            yield return null;
+
         debounceCoroutine = null;
 
-        if (spawner == null || CameraFocus.Instance == null)
+        if (CameraFocus.Instance == null)
             yield break;
 
-        var positions = spawner.GetSpawnedPositionsOrdered();
+        RebuildTourStops();
 
-        if (positions.Count == 0)
+        if (_tourStops.Count == 0)
         {
-            // No buildings in the scene -> stay at the overview.
             CameraFocus.Instance.ReturnHome();
             yield break;
         }
 
-        CameraFocus.Instance.StartTour(positions);
+        CameraFocus.Instance.StartTour(_tourStops);
+    }
+
+    void RebuildTourStops()
+    {
+        _tourStops.Clear();
+
+        if (dataSource == null || spawner == null)
+            return;
+
+        IReadOnlyList<Organization> portfolio = dataSource.FilteredCompanies;
+        for (int i = 0; i < portfolio.Count; i++)
+        {
+            Organization org = portfolio[i];
+            if (org == null)
+                continue;
+
+            if (spawner.TryGetSpawnedTransform(org.id, out Transform building))
+                _tourStops.Add(building);
+        }
     }
 }
