@@ -53,6 +53,12 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
     public IReadOnlyList<Organization> FilteredCompanies => _filtered;
     public bool HasFiltered { get; private set; }
 
+    /// <summary>Highest <c>lobbying_cost_EU</c> in the dataset; 0 when nothing is disclosed.</summary>
+    public double MaxLobbyingCostEU { get; private set; }
+
+    /// <summary>Highest <c>military_revenue_2024_euro</c> in the dataset; 0 when nothing is disclosed.</summary>
+    public double MaxMilitaryRevenue2024Euro { get; private set; }
+
     public event Action<IReadOnlyList<Organization>> Filtered;
 
     void Awake()
@@ -85,6 +91,8 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
         _filtered = new List<Organization>();
         _loaded = true;
         HasFiltered = false;
+        MaxLobbyingCostEU = EuroDialReadout.MaxOf(_all, o => o.lobbying_cost_EU);
+        MaxMilitaryRevenue2024Euro = EuroDialReadout.MaxOf(_all, o => o.military_revenue_2024_euro);
     }
 
     /// <summary>
