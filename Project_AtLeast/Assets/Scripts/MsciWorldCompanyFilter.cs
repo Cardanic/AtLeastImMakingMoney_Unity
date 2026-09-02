@@ -35,10 +35,10 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
     [SerializeField, Range(0f, 100f)]
     float militaryEconomicExposureScore;
 
-    [Header("3 — Who Profits")]
-    [Tooltip("On: keep only Who Profits firms. Off: exclude Who Profits firms.")]
-    [SerializeField]
-    bool filterByWhoProfits = true;
+    [Header("3 — Occupation Economy Involvement")]
+    [Tooltip("1: keep only Who Profits / occupation-involved firms. 0: exclude them.")]
+    [SerializeField, Range(0f, 1f)]
+    float occupationEconomyInvolvement = 1f;
 
     [Header("Runtime")]
     [SerializeField]
@@ -96,10 +96,11 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
         _filtered = CompanyFilter.Apply(_all, CurrentCriteria());
         HasFiltered = true;
         Filtered?.Invoke(_filtered);
+        bool whoProfits = occupationEconomyInvolvement >= 0.5f;
         Debug.Log(
             $"{nameof(MsciWorldCompanyFilter)}: {_filtered.Count} / {_all.Count} companies " +
             $"(lobby≤{lobbyingEconomicExposureScore:0}, mil≤{militaryEconomicExposureScore:0}, " +
-            $"whoProfits={filterByWhoProfits})."
+            $"occupation={occupationEconomyInvolvement:0}, whoProfits={whoProfits})."
         );
     }
 
@@ -116,10 +117,16 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
         ApplyFilter();
     }
 
+    /// <summary>0 = exclude Who Profits firms; 1 = keep only Who Profits firms.</summary>
+    public void SetOccupationEconomyInvolvement(float value)
+    {
+        occupationEconomyInvolvement = Mathf.Clamp(Mathf.Round(value), 0f, 1f);
+        ApplyFilter();
+    }
+
     public void SetFilterByWhoProfits(bool enabled)
     {
-        filterByWhoProfits = enabled;
-        ApplyFilter();
+        SetOccupationEconomyInvolvement(enabled ? 1f : 0f);
     }
 
     public void SetFilterByLobbying(bool enabled)
@@ -142,7 +149,7 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
             LobbyingEconomicExposureScore = lobbyingEconomicExposureScore,
             FilterByMilitary = filterByMilitary,
             MilitaryEconomicExposureScore = militaryEconomicExposureScore,
-            FilterByWhoProfits = filterByWhoProfits
+            FilterByWhoProfits = occupationEconomyInvolvement >= 0.5f
         };
     }
 }

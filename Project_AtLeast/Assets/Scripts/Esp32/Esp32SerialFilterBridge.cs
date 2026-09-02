@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 /// <summary>
 /// Optional USB-serial bridge from the ESP32 encoder firmware into
-/// <see cref="MsciWorldCompanyFilter"/>. Sliders/toggle stay wired and work without hardware.
+/// <see cref="MsciWorldCompanyFilter"/>. Sliders stay wired and work without hardware.
 /// Enable <see cref="connectOnStart"/> (or call <see cref="Connect"/>) only when a board is plugged in.
 /// </summary>
 [DefaultExecutionOrder(-50)]
@@ -52,7 +52,7 @@ public sealed class Esp32SerialFilterBridge : MonoBehaviour
     Slider militarySlider;
 
     [SerializeField]
-    Toggle whoProfitsToggle;
+    Slider occupationSlider;
 
     readonly ConcurrentQueue<string> _lines = new();
     readonly StringBuilder _lineBuffer = new();
@@ -263,10 +263,8 @@ public sealed class Esp32SerialFilterBridge : MonoBehaviour
 
     void ApplyToFilterAndUi(int military, int lobby, int occupation)
     {
-        bool whoProfits = occupation != 0;
-
         // Drive UI when the displayed value differs so IntegerSliderLabel / visuals update
-        // (Slider/Toggle onValueChanged also call Set*). Always call Set* when the UI
+        // (Slider onValueChanged also call Set*). Always call Set* when the UI
         // value is already equal, so the filter still matches the encoder packet.
         if (militarySlider != null && !Mathf.Approximately(militarySlider.value, military))
             militarySlider.value = military;
@@ -278,10 +276,10 @@ public sealed class Esp32SerialFilterBridge : MonoBehaviour
         else if (filter != null)
             filter.SetLobbyingEconomicExposureScore(lobby);
 
-        if (whoProfitsToggle != null && whoProfitsToggle.isOn != whoProfits)
-            whoProfitsToggle.isOn = whoProfits;
+        if (occupationSlider != null && !Mathf.Approximately(occupationSlider.value, occupation))
+            occupationSlider.value = occupation;
         else if (filter != null)
-            filter.SetFilterByWhoProfits(whoProfits);
+            filter.SetOccupationEconomyInvolvement(occupation);
     }
 
     static bool TryParseLine(string line, out int military, out int lobby, out int occupation)
@@ -345,11 +343,11 @@ public sealed class Esp32SerialFilterBridge : MonoBehaviour
                 militarySlider = go.GetComponentInChildren<Slider>(true);
         }
 
-        if (whoProfitsToggle == null)
+        if (occupationSlider == null)
         {
-            var go = GameObject.Find("Toggle");
+            var go = GameObject.Find("ParameterPrefab_3");
             if (go != null)
-                whoProfitsToggle = go.GetComponent<Toggle>();
+                occupationSlider = go.GetComponentInChildren<Slider>(true);
         }
     }
 
