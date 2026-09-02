@@ -4,31 +4,65 @@ using UnityEngine;
 
 public class CameraFocus : MonoBehaviour
 {
+    public enum MotionState
+    {
+        Idle,
+        ZoomingOut,
+        Touring
+    }
+
+    public struct TourStop
+    {
+        public Transform building;
+        public Vector3 lookCenter;
+        public float radius;
+        public bool clockwise;
+    }
+
     public static CameraFocus Instance;
 
-    [Header("Focus Settings")]
-    public float moveSpeed = 5f;
-    public float heightOffset = 10f;   // how high above the target the camera sits
-    public float backOffset = 8f;      // how far back from the target the camera sits
-    public float arriveThreshold = 0.05f;
-
-    [Header("Tour Settings")]
-    [Tooltip("How long the camera lingers on each building before moving to the next.")]
-    public float pauseAtEachStop = 1.5f;
-    [Tooltip("If true, keep cycling through the tour forever (never returns home). If false, return to the home view after the last stop.")]
-    public bool loopTour = false;
-
     [Header("Home / Overview")]
-    [Tooltip("Optional. If set, the camera returns here (position + rotation) after a tour finishes. If left empty, the camera's starting transform in the scene is used instead.")]
+    [Tooltip("Optional. If set, zoom-out targets this pose. Otherwise the camera's starting transform is used.")]
     public Transform homeTransform;
-    [Tooltip("How long to pause at the last building before heading back home.")]
-    public float pauseBeforeReturningHome = 1f;
 
-    Vector3 targetPosition;
-    Quaternion targetRotation;
-    bool useRotation = false;
-    bool isMoving = false;
-    Coroutine tourCoroutine;
+    [Header("Zoom Out")]
+    [Tooltip("Duration of the satellite pull-back from the current pose to home.")]
+    public float zoomOutDuration = 2f;
+    [Tooltip("Optional. If empty, uses sine ease: 0.5 - 0.5*cos(pi*t).")]
+    public AnimationCurve zoomOutCurve;
+
+    [Header("Tour — Orbit")]
+    [Tooltip("Minimum horizontal orbit radius. Per-building fit distance can push this higher.")]
+    public float orbitRadiusMin = 12f;
+    [Tooltip("Multiplier on bounds height when fitting the building in the vertical FOV.")]
+    public float fitMargin = 1.3f;
+    [Tooltip("Degrees down from horizontal when looking at the building from the orbit ring.")]
+    public float tourPitchDegrees = 25f;
+    [Tooltip("Yaw swept during each building orbit, in degrees.")]
+    public float orbitSweepDegrees = 180f;
+    public float orbitDuration = 3f;
+    [Tooltip("Optional. If empty, uses sine ease.")]
+    public AnimationCurve orbitCurve;
+
+    [Header("Tour — Approach")]
+    [Tooltip("World units per second used to derive approach duration from distance.")]
+    public float approachSpeed = 25f;
+    public float approachMinDuration = 0.6f;
+    public float approachMaxDuration = 3.5f;
+    [Tooltip("Optional. If empty, uses sine ease.")]
+    public AnimationCurve approachCurve;
+
+    [Header("Focus On (card click)")]
+    [Tooltip("Used when distance-derived approach duration would be zero.")]
+    public float focusDuration = 0.8f;
+
+    public MotionState State { get; private set; } = MotionState.Idle;
+
+    readonly List<TourStop> _tourStops = new();
+    readonly List<Renderer> _rendererBuffer = new();
+    Coroutine _motion;
+    float _orbitEndYaw;
+    Camera _camera;
 
     Vector3 homePosition;
     Quaternion homeRotation;
@@ -36,8 +70,8 @@ public class CameraFocus : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        _camera = GetComponent<Camera>();
 
-        // Remember where the camera started (or use an explicit homeTransform if assigned).
         if (homeTransform != null)
         {
             homePosition = homeTransform.position;
@@ -50,103 +84,309 @@ public class CameraFocus : MonoBehaviour
         }
     }
 
-    /// <summary>Jump straight to one position (used by card clicks). Cancels any running tour.</summary>
+    /// <summary>Short move to an orbit-style look at a world point. Cancels any running motion.</summary>
     public void FocusOn(Vector3 worldPosition)
     {
-        StopTour();
-        useRotation = false;
-        targetPosition = worldPosition + new Vector3(0, heightOffset, -backOffset);
-        isMoving = true;
+        StopMotion();
+
+        float radius = orbitRadiusMin;
+        float yaw = EntryYaw(worldPosition);
+        Vector3 endPos = OrbitPosition(worldPosition, yaw, radius);
+        Quaternion endRot = LookAtBuilding(worldPosition, endPos);
+        float duration = ApproachDuration(Vector3.Distance(transform.position, endPos));
+        if (duration <= 0f)
+            duration = focusDuration;
+
+        State = MotionState.Touring;
+        _motion = StartCoroutine(FocusRoutine(endPos, endRot, duration));
     }
 
     /// <summary>
-    /// Start (or replace) an automatic tour: visits each position in order,
-    /// pausing briefly at each, then returns to the home/overview position
-    /// (unless loopTour is true).
+    /// Start (or replace) an automatic tour over the given buildings, in list order.
+    /// Bounds / fit radius are computed once here per stop. Loops until interrupted.
+    /// Empty list is a no-op.
     /// </summary>
-    public void StartTour(IReadOnlyList<Vector3> positions)
+    public void StartTour(IReadOnlyList<Transform> buildings)
     {
-        StopTour();
-
-        if (positions == null || positions.Count == 0)
+        if (State == MotionState.ZoomingOut)
             return;
 
-        tourCoroutine = StartCoroutine(TourRoutine(positions));
+        StopMotion();
+
+        _tourStops.Clear();
+        if (buildings != null)
+        {
+            for (int i = 0; i < buildings.Count; i++)
+            {
+                Transform building = buildings[i];
+                if (building == null)
+                    continue;
+                if (TryCreateStop(building, out TourStop stop))
+                    _tourStops.Add(stop);
+            }
+        }
+
+        if (_tourStops.Count == 0)
+            return;
+
+        _motion = StartCoroutine(TourRoutine());
     }
 
     public void StopTour()
     {
-        if (tourCoroutine != null)
-        {
-            StopCoroutine(tourCoroutine);
-            tourCoroutine = null;
-        }
+        if (State == MotionState.Touring)
+            StopMotion();
     }
 
-    /// <summary>Send the camera back to the overview position immediately.</summary>
+    /// <summary>
+    /// Cancel any tour and pull back to the home/overview pose from the camera's
+    /// current position and rotation (no snap). Repeat calls during zoom-out are ignored.
+    /// </summary>
     public void ReturnHome()
     {
-        StopTour();
-        useRotation = true;
-        targetPosition = homePosition;
-        targetRotation = homeRotation;
-        isMoving = true;
+        if (State == MotionState.ZoomingOut || (State == MotionState.Idle && IsAtHome()))
+            return;
+
+        StopMotion();
+        _motion = StartCoroutine(ZoomOutRoutine());
     }
 
-    IEnumerator TourRoutine(IReadOnlyList<Vector3> positions)
+    bool IsAtHome()
     {
-        do
+        return Vector3.Distance(transform.position, homePosition) < 0.05f
+            && Quaternion.Angle(transform.rotation, homeRotation) < 0.5f;
+    }
+
+    bool TryCreateStop(Transform building, out TourStop stop)
+    {
+        Vector3 lookCenter = building.position;
+        float radius = orbitRadiusMin;
+
+        if (TryGetRendererBounds(building, out Bounds bounds))
         {
-            foreach (var pos in positions)
+            lookCenter = bounds.center;
+            radius = FitOrbitRadius(bounds.extents.y);
+        }
+
+        var mapObj = building.GetComponent<CompanyMapObject>();
+        stop = new TourStop
+        {
+            building = building,
+            lookCenter = lookCenter,
+            radius = radius,
+            clockwise = mapObj == null || mapObj.orbitClockwise
+        };
+        return true;
+    }
+
+    float FitOrbitRadius(float extentsY)
+    {
+        float halfFovRad = 30f * Mathf.Deg2Rad;
+        if (_camera != null)
+            halfFovRad = _camera.fieldOfView * 0.5f * Mathf.Deg2Rad;
+
+        float tanHalf = Mathf.Tan(halfFovRad);
+        float fitDistance = tanHalf > 1e-6f
+            ? (extentsY * fitMargin) / tanHalf
+            : orbitRadiusMin;
+
+        return Mathf.Max(orbitRadiusMin, fitDistance);
+    }
+
+    bool TryGetRendererBounds(Transform root, out Bounds bounds)
+    {
+        _rendererBuffer.Clear();
+        root.GetComponentsInChildren(true, _rendererBuffer);
+
+        bool found = false;
+        bounds = default;
+        for (int i = 0; i < _rendererBuffer.Count; i++)
+        {
+            Renderer r = _rendererBuffer[i];
+            if (r == null)
+                continue;
+
+            if (!found)
             {
-                useRotation = false;
-                targetPosition = pos + new Vector3(0, heightOffset, -backOffset);
-                isMoving = true;
-
-                while (Vector3.Distance(transform.position, targetPosition) > arriveThreshold)
-                    yield return null;
-
-                transform.position = targetPosition;
-                isMoving = false;
-
-                yield return new WaitForSeconds(pauseAtEachStop);
+                bounds = r.bounds;
+                found = true;
+            }
+            else
+            {
+                bounds.Encapsulate(r.bounds);
             }
         }
-        while (loopTour);
 
-        // Tour is done (non-looping) — head back to the overview.
-        yield return new WaitForSeconds(pauseBeforeReturningHome);
-
-        useRotation = true;
-        targetPosition = homePosition;
-        targetRotation = homeRotation;
-        isMoving = true;
-
-        while (Vector3.Distance(transform.position, targetPosition) > arriveThreshold)
-            yield return null;
-
-        transform.position = targetPosition;
-        transform.rotation = homeRotation;
-        isMoving = false;
-
-        tourCoroutine = null;
+        return found;
     }
 
-    void Update()
+    void StopMotion()
     {
-        if (!isMoving) return;
-
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
-
-        if (useRotation)
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * moveSpeed);
-
-        if (Vector3.Distance(transform.position, targetPosition) < arriveThreshold)
+        if (_motion != null)
         {
-            transform.position = targetPosition;
-            if (useRotation)
-                transform.rotation = targetRotation;
-            isMoving = false;
+            StopCoroutine(_motion);
+            _motion = null;
         }
+
+        State = MotionState.Idle;
+    }
+
+    IEnumerator FocusRoutine(Vector3 endPos, Quaternion endRot, float duration)
+    {
+        yield return AnimatePose(
+            transform.position, transform.rotation,
+            endPos, endRot,
+            duration, approachCurve);
+        _motion = null;
+        State = MotionState.Idle;
+    }
+
+    IEnumerator ZoomOutRoutine()
+    {
+        State = MotionState.ZoomingOut;
+        yield return AnimatePose(
+            transform.position, transform.rotation,
+            homePosition, homeRotation,
+            zoomOutDuration, zoomOutCurve);
+        _motion = null;
+        State = MotionState.Idle;
+    }
+
+    IEnumerator TourRoutine()
+    {
+        State = MotionState.Touring;
+
+        int count = _tourStops.Count;
+        bool single = count == 1;
+        int index = 0;
+
+        while (true)
+        {
+            TourStop stop = _tourStops[index];
+            if (stop.building == null)
+            {
+                if (single)
+                    yield break;
+
+                index = (index + 1) % count;
+                yield return null;
+                continue;
+            }
+
+            Vector3 center = stop.lookCenter;
+            float radius = stop.radius;
+            float yaw = EntryYaw(center);
+            Vector3 entryPos = OrbitPosition(center, yaw, radius);
+            Quaternion entryRot = LookAtBuilding(center, entryPos);
+
+            float approachDur = ApproachDuration(Vector3.Distance(transform.position, entryPos));
+            yield return AnimatePose(
+                transform.position, transform.rotation,
+                entryPos, entryRot,
+                approachDur, approachCurve);
+
+            if (single)
+            {
+                while (true)
+                {
+                    yield return OrbitSweep(center, radius, yaw, stop.clockwise);
+                    yaw = _orbitEndYaw;
+                }
+            }
+
+            yield return OrbitSweep(center, radius, yaw, stop.clockwise);
+
+            index = (index + 1) % count;
+        }
+    }
+
+    IEnumerator OrbitSweep(Vector3 center, float radius, float startYaw, bool clockwise)
+    {
+        float signedSweepRad = (clockwise ? -1f : 1f) * orbitSweepDegrees * Mathf.Deg2Rad;
+        float endYaw = startYaw + signedSweepRad;
+        float duration = Mathf.Max(0.0001f, orbitDuration);
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t = Mathf.Min(1f, t + Time.deltaTime / duration);
+            float e = EvaluateEase(t, orbitCurve);
+            float yaw = Mathf.LerpUnclamped(startYaw, endYaw, e);
+            Vector3 pos = OrbitPosition(center, yaw, radius);
+            transform.SetPositionAndRotation(pos, LookAtBuilding(center, pos));
+            yield return null;
+        }
+
+        _orbitEndYaw = endYaw;
+    }
+
+    IEnumerator AnimatePose(
+        Vector3 startPos, Quaternion startRot,
+        Vector3 endPos, Quaternion endRot,
+        float duration, AnimationCurve curve)
+    {
+        if (duration <= 0f)
+        {
+            transform.SetPositionAndRotation(endPos, endRot);
+            yield break;
+        }
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t = Mathf.Min(1f, t + Time.deltaTime / duration);
+            float e = EvaluateEase(t, curve);
+            transform.SetPositionAndRotation(
+                Vector3.LerpUnclamped(startPos, endPos, e),
+                Quaternion.SlerpUnclamped(startRot, endRot, e));
+            yield return null;
+        }
+    }
+
+    float ApproachDuration(float distance)
+    {
+        if (approachSpeed <= 0f)
+            return approachMaxDuration;
+        return Mathf.Clamp(distance / approachSpeed, approachMinDuration, approachMaxDuration);
+    }
+
+    static float EvaluateEase(float t, AnimationCurve curve)
+    {
+        t = Mathf.Clamp01(t);
+        if (curve != null && curve.length > 0)
+            return Mathf.Clamp01(curve.Evaluate(t));
+        return 0.5f - 0.5f * Mathf.Cos(Mathf.PI * t);
+    }
+
+    float EntryYaw(Vector3 center)
+    {
+        Vector3 flat = transform.position - center;
+        flat.y = 0f;
+        if (flat.sqrMagnitude < 1e-8f)
+        {
+            flat = -transform.forward;
+            flat.y = 0f;
+            if (flat.sqrMagnitude < 1e-8f)
+                flat = Vector3.forward;
+        }
+
+        return Mathf.Atan2(flat.z, flat.x);
+    }
+
+    Vector3 OrbitPosition(Vector3 center, float yawRadians, float radius)
+    {
+        float height = radius * Mathf.Tan(tourPitchDegrees * Mathf.Deg2Rad);
+        return center + new Vector3(
+            Mathf.Cos(yawRadians) * radius,
+            height,
+            Mathf.Sin(yawRadians) * radius);
+    }
+
+    static Quaternion LookAtBuilding(Vector3 center, Vector3 cameraPos)
+    {
+        Vector3 to = center - cameraPos;
+        if (to.sqrMagnitude < 1e-8f)
+            return Quaternion.identity;
+        return Quaternion.LookRotation(to, Vector3.up);
     }
 }

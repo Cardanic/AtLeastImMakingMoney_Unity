@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.006
   m_LinearFogStart: 50
   m_LinearFogEnd: 500
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.47
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.042764325, g: 0.113430835, b: 0.2924528, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.128
@@ -5179,6 +5179,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 8ab858c3b4156b44d94989aeade0c4a2, type: 3}
       propertyPath: m_Name
       value: longBuilding
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8ab858c3b4156b44d94989aeade0c4a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15294,12 +15298,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -15612,6 +15616,10 @@ MonoBehaviour:
   - {fileID: 3152218585636195570, guid: 38073a95e852c3944b7c35a04134cd1f, type: 3}
   - {fileID: 3152218585636195570, guid: fb411f75623ac2849a69dea1ab5e2f1c, type: 3}
   spawnArea: {fileID: 1309457252}
+  minSpacing: 22
+  edgePadding: 8
+  cellJitter: 0.3
+  maxPlacementAttempts: 80
   mapParent: {fileID: 474193061}
   dataSource: {fileID: 936756028}
 --- !u!4 &346369730
@@ -15710,8 +15718,8 @@ Camera:
   m_GameObject: {fileID: 436707962}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0.1764706, b: 0.5764706, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -15779,14 +15787,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be758fe4509aff6479d893480c6f6fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFocus
-  moveSpeed: 10
-  heightOffset: 20
-  backOffset: 10
-  arriveThreshold: 0.05
-  pauseAtEachStop: 1.5
-  loopTour: 1
   homeTransform: {fileID: 0}
-  pauseBeforeReturningHome: 1
+  zoomOutDuration: 2
+  zoomOutCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  orbitRadiusMin: 12
+  fitMargin: 1.3
+  tourPitchDegrees: -1
+  orbitSweepDegrees: -360
+  orbitDuration: 6
+  orbitCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  approachSpeed: 20
+  approachMinDuration: 0.8
+  approachMaxDuration: 3.5
+  approachCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  focusDuration: 0.8
 --- !u!1 &438040954
 GameObject:
   m_ObjectHideFlags: 0
@@ -15818,6 +15847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CompanyPathLine
   spawner: {fileID: 346369729}
+  lineWidth: 0.04
   verticalOffset: 1
   closeLoop: 1
 --- !u!120 &438040956
@@ -16001,6 +16031,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConeTop
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 53a395882740df645ba468839feda4db, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16052,7 +16086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraTourManager
   dataSource: {fileID: 936756028}
   spawner: {fileID: 346369729}
-  debounceSeconds: 1
+  tourStartDelay: 3
 --- !u!1 &520776447
 GameObject:
   m_ObjectHideFlags: 0
@@ -21167,7 +21201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &650898914
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26957,6 +26991,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OverhangOfficeBuilding (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3fe1f98e4e353434b873705bb8e8d269, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -27017,6 +27055,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 99351203dd3c4264c8530433955c56ac, type: 3}
       propertyPath: m_Name
       value: SemiCircle
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 99351203dd3c4264c8530433955c56ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -27270,6 +27312,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b0f23c8bcac90ff4189e59b518357f47, type: 3}
       propertyPath: m_Name
       value: BuildingA
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b0f23c8bcac90ff4189e59b518357f47, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -37527,8 +37573,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1390420768}
   m_HandleRect: {fileID: 1390420767}
   m_Direction: 0
-  m_Value: 0.50000197
-  m_Size: 0.72641
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -37940,6 +37986,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuildingB
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c30d0cd10cac8a647b124b27c0885301, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -38151,6 +38201,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 8448c36e516787541b2294229fdbfe2c, type: 3}
       propertyPath: m_Name
       value: ShiftedOverhangBuilding (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8448c36e516787541b2294229fdbfe2c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -38720,6 +38774,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TripleStack
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 13a589e1bab310242a2fcb98fa93b61a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -38776,6 +38834,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 584d8f62dd03b4041bc7896a0cdb2518, type: 3}
       propertyPath: m_Name
       value: TwistedTower 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 584d8f62dd03b4041bc7896a0cdb2518, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -38981,6 +39043,10 @@ PrefabInstance:
     - target: {fileID: 8072354599183965046, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
       propertyPath: m_text
       value: n/d
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072354599183965046, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
+      propertyPath: m_fontSize
+      value: 43.4
       objectReference: {fileID: 0}
     - target: {fileID: 8253068580554082171, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
       propertyPath: m_LocalScale.x
@@ -39282,6 +39348,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SemiCircle (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 99351203dd3c4264c8530433955c56ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -39448,6 +39518,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ae7c3dfad10d4334e843d6e545e3e5a8, type: 3}
       propertyPath: m_Name
       value: ShortBuilding
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ae7c3dfad10d4334e843d6e545e3e5a8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -39718,7 +39792,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1664099760
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39846,6 +39920,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 199af87b039ac7c4bb09d1681d3a3cb7, type: 3}
       propertyPath: m_Name
       value: OilRefinery
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 199af87b039ac7c4bb09d1681d3a3cb7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -40418,7 +40496,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1794523475
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45670,6 +45748,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShiftedOverhangBuilding
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8448c36e516787541b2294229fdbfe2c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -45738,6 +45820,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e8a03e63dc137824a8352bed2138e48a, type: 3}
       propertyPath: m_Name
       value: BuildingC
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e8a03e63dc137824a8352bed2138e48a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -45868,6 +45954,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1315031780039777616, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2079148259255986360, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -45956,6 +46046,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -282.1
       objectReference: {fileID: 0}
+    - target: {fileID: 7857300132080753378, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7881862980303605698, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
       propertyPath: m_Name
       value: ParameterPrefab_3
@@ -45987,6 +46081,14 @@ PrefabInstance:
     - target: {fileID: 9123456789012345678, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
       propertyPath: maxValue
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123456789012345678, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
+      propertyPath: labelAtMax
+      value: involved
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123456789012345678, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
+      propertyPath: labelAtMin
+      value: no known involvement
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -46070,6 +46172,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SemiCircle (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 99351203dd3c4264c8530433955c56ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -46127,6 +46233,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: longBuilding (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8ab858c3b4156b44d94989aeade0c4a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -46183,6 +46293,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 18285a533f4bd8d489375c6cb15547ad, type: 3}
       propertyPath: m_Name
       value: OfficeBuilding
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 18285a533f4bd8d489375c6cb15547ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -46636,6 +46750,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SideLengthOffice
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ae713934ea63f5b4180296b614f39992, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -46651,7 +46769,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 361229550816204479, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
       propertyPath: m_text
-      value: n/d
+      value: not disclosed
       objectReference: {fileID: 0}
     - target: {fileID: 475028435345336931, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
       propertyPath: m_AnchorMax.x
@@ -46816,6 +46934,10 @@ PrefabInstance:
     - target: {fileID: 6732184348152906483, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
       propertyPath: m_fontSizeBase
       value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 7596179907864077343, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 220.5
       objectReference: {fileID: 0}
     - target: {fileID: 7881862980303605698, guid: dbba39cd3d828ea4a996e182142c7bc5, type: 3}
       propertyPath: m_Name

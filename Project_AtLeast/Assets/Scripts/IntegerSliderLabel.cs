@@ -40,6 +40,15 @@ public sealed class IntegerSliderLabel : MonoBehaviour
     [SerializeField]
     string unavailableText = "n/d";
 
+    [Header("Binary labels (optional)")]
+    [Tooltip("Center label when the dial is at minimum (e.g. 0 on a 0–1 slider).")]
+    [SerializeField]
+    string labelAtMin;
+
+    [Tooltip("Center label when the dial is at maximum (e.g. 1 on a 0–1 slider).")]
+    [SerializeField]
+    string labelAtMax;
+
     [Tooltip("Leave empty to find the filter in the scene.")]
     [SerializeField]
     MsciWorldCompanyFilter filter;
@@ -106,8 +115,26 @@ public sealed class IntegerSliderLabel : MonoBehaviour
         if (metric != ParameterEuroMetric.None && !_scaleReady)
             return;
 
+        if (TryBinaryLabel(value, out string binaryText))
+        {
+            label.text = binaryText;
+            return;
+        }
+
         label.text = EuroDialReadout.CenterLabel(
             value, minValue, maxValue, _datasetMax, unavailableText, CurrencySymbol);
+    }
+
+    bool TryBinaryLabel(float value, out string text)
+    {
+        text = null;
+        if (string.IsNullOrEmpty(labelAtMin) || string.IsNullOrEmpty(labelAtMax))
+            return false;
+        if (!Mathf.Approximately(minValue, 0f) || !Mathf.Approximately(maxValue, 1f))
+            return false;
+
+        text = Mathf.RoundToInt(value) >= 1 ? labelAtMax : labelAtMin;
+        return true;
     }
 
     string CurrencySymbol =>
