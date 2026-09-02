@@ -27,12 +27,14 @@ public class CompanyCardCopyTests
         var org = new Organization
         {
             total_revenue_2025 = "89.463.000.000$",
+            total_revenue_2025_amount = 89_463_000_000,
             military_revenue_2024 = "30.550.000.000$",
+            military_revenue_2024_amount = 30_550_000_000,
             lobbying_cost_EU = 800_000
         };
 
         Assert.AreEqual(
-            "total:    89.463.000.000$\nmilitary: 30.550.000.000$\nlobby:    800K€",
+            "Total 2025:   89.5B$\nMilitary 2024: 30.6B$\nLobby:        800K€",
             CompanyCardCopy.Metrics(org));
     }
 
@@ -47,7 +49,7 @@ public class CompanyCardCopyTests
         };
 
         Assert.AreEqual(
-            "total:    n/d\nmilitary: n/d\nlobby:    n/d",
+            "Total 2025:   n/d\nMilitary 2024: n/d\nLobby:        n/d",
             CompanyCardCopy.Metrics(org));
     }
 
