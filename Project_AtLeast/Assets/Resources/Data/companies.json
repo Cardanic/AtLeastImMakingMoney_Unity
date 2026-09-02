@@ -44,7 +44,7 @@
     "matched_sipri": "Linked to SIPRI Top-100 arms/defense revenue data.",
     "matched_lobbyfacts": "Linked to EU Transparency Register (Lobbyfacts).",
     "matched_who_profits": "Linked to Who Profits occupation-complicity database.",
-    "lobbying_economic_exposure_score": "0-1 within the matched Lobbyfacts cohort (2 decimals). Null when the company has no EU Transparency Register entry; 0 is never used to mean 'no data'.",
+    "lobbying_economic_exposure_score": "0-100 vs max lobbying_cost_EU in this file. Null when lobbying_cost_EU is missing or 0; 0 is never stored as a score.",
     "reporting_currency": "ISO currency of total_revenue_* only, i.e. the company's own reporting currency. military_revenue_* is always USD and does not follow this field.",
     "total_revenue_2025": "Total revenue for 2025 in reporting_currency (SIPRI-first, SEC EDGAR, or manual override).",
     "arms_revenue_magnitude_score": "SIPRI 2024 arms revenue divided by the largest arms revenue in this file (Lockheed Martin, $64.65bn). Range 0-1, 3 decimals. It measures the absolute size of a company's arms business, not how dependent the company is on it; 0 would mean no arms revenue at all, and no company with non-zero arms revenue scores 0. Null when there is no SIPRI match.",
@@ -63,7 +63,8 @@
     "total_revenue_change": "Change in total revenue from 2023 to 2025, as an absolute amount in reporting_currency and a rounded percentage. Where the years are not on a comparable basis the row also carries total_revenue_change_basis and total_revenue_change_note, which must be displayed with it.",
     "total_revenue_change_basis": "'mixed_perimeter' means the change is computed across a perimeter break: the base year and the end year are not on the same accounting basis. Present only on rows where that is true; absent means all contributing years share one basis.",
     "total_revenue_change_note": "Why the change spans two perimeters, in which direction it is wrong, and the comparable like-for-like growth rate. Must be displayed wherever total_revenue_change is displayed on a row whose total_revenue_change_basis is 'mixed_perimeter'.",
-    "total_revenue_change_allow_mixed_basis": "An explicit, per-row decision to publish a revenue change across a perimeter break. The build assertion in scripts/build/fifty-companies-revenue-basis.test.ts fails on any row that reports a change across an 'old_perimeter' year without this set to true, so a company that divests in future cannot inherit the exemption silently."
+    "total_revenue_change_allow_mixed_basis": "An explicit, per-row decision to publish a revenue change across a perimeter break. The build assertion in scripts/build/fifty-companies-revenue-basis.test.ts fails on any row that reports a change across an 'old_perimeter' year without this set to true, so a company that divests in future cannot inherit the exemption silently.",
+    "military_economic_exposure_score": "0-100 vs max military_revenue_2024_amount in this file. Null when military revenue is missing or 0; 0 is never stored as a score."
   },
   "data": [
     {
@@ -104,7 +105,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.1,
+      "lobbying_economic_exposure_score": 9,
       "name": "Boeing",
       "well_known": true,
       "well_known_for": "Commercial & military aircraft",
@@ -115,7 +116,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 47
     },
     {
       "id": 2,
@@ -156,7 +158,7 @@
       "traded_in": [
         "Borsa Italiana"
       ],
-      "lobbying_economic_exposure_score": 0.038,
+      "lobbying_economic_exposure_score": 3,
       "name": "LEONARDO FINMECCANICA SPA",
       "well_known": true,
       "well_known_for": "Italian aerospace & defense",
@@ -167,7 +169,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 21
     },
     {
       "id": 3,
@@ -208,7 +211,7 @@
       "traded_in": [
         "London Stock Exchange"
       ],
-      "lobbying_economic_exposure_score": 0.025,
+      "lobbying_economic_exposure_score": 2,
       "name": "ROLLS-ROYCE HOLDINGS PLC",
       "well_known": true,
       "well_known_for": "Aerospace engines & defense",
@@ -219,7 +222,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 11
     },
     {
       "id": 4,
@@ -257,7 +261,7 @@
       "traded_in": [
         "Nyse Euronext - Euronext Paris"
       ],
-      "lobbying_economic_exposure_score": 0.25,
+      "lobbying_economic_exposure_score": 22,
       "name": "AIRBUS GROUP",
       "well_known": true,
       "well_known_for": "Commercial aircraft & defense",
@@ -268,7 +272,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 21
     },
     {
       "id": 5,
@@ -306,7 +311,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.038,
+      "lobbying_economic_exposure_score": 3,
       "name": "Eaton Corporation",
       "well_known": true,
       "well_known_for": "Energy management solutions",
@@ -317,7 +322,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 3
     },
     {
       "id": 6,
@@ -355,7 +361,7 @@
       "traded_in": [
         "Tokyo Stock Exchange"
       ],
-      "lobbying_economic_exposure_score": 0.05,
+      "lobbying_economic_exposure_score": 4,
       "name": "FUJITSU",
       "well_known": true,
       "well_known_for": "IT services & computing",
@@ -366,7 +372,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 3
     },
     {
       "id": 7,
@@ -404,7 +411,7 @@
       "traded_in": [
         "NASDAQ"
       ],
-      "lobbying_economic_exposure_score": 0.2,
+      "lobbying_economic_exposure_score": 22,
       "name": "Honeywell",
       "well_known": true,
       "well_known_for": "Aerospace & industrial technology",
@@ -415,7 +422,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 9
     },
     {
       "id": 8,
@@ -453,7 +461,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.013,
+      "lobbying_economic_exposure_score": 1,
       "name": "Lockheed Martin",
       "well_known": true,
       "well_known_for": "Defense & aerospace (F-35)",
@@ -464,7 +472,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 100
     },
     {
       "id": 9,
@@ -509,7 +518,7 @@
       "traded_in": [
         "Xetra"
       ],
-      "lobbying_economic_exposure_score": 0.063,
+      "lobbying_economic_exposure_score": 6,
       "name": "RHEINMETALL AG",
       "well_known": true,
       "well_known_for": "German defense systems",
@@ -520,7 +529,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 13
     },
     {
       "id": 10,
@@ -558,7 +568,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.025,
+      "lobbying_economic_exposure_score": 2,
       "name": "RTX Corporation",
       "well_known": true,
       "well_known_for": "Aerospace & defense (Raytheon)",
@@ -569,7 +579,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 67
     },
     {
       "id": 11,
@@ -607,7 +618,7 @@
       "traded_in": [
         "Nyse Euronext - Euronext Paris"
       ],
-      "lobbying_economic_exposure_score": 0.05,
+      "lobbying_economic_exposure_score": 4,
       "name": "SAFRAN SA",
       "well_known": true,
       "well_known_for": "Aerospace & defense systems",
@@ -618,7 +629,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 8
     },
     {
       "id": 12,
@@ -656,7 +668,7 @@
       "traded_in": [
         "NASDAQ"
       ],
-      "lobbying_economic_exposure_score": 0.025,
+      "lobbying_economic_exposure_score": 2,
       "name": "SPACE EXPLORATION TECHNOLOGIES COR",
       "well_known": true,
       "well_known_for": "Space launch & Starlink",
@@ -667,7 +679,8 @@
       "fiscal_year_label_basis": "Fiscal year labelled by the calendar year in which it ends.",
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024 (2023 figure is a SIPRI estimate for a company ranked outside the Top 100 that year)",
-      "arms_disclosure_status": "sipri_quantified"
+      "arms_disclosure_status": "sipri_quantified",
+      "military_economic_exposure_score": 3
     },
     {
       "id": 13,
@@ -705,7 +718,7 @@
       "traded_in": [
         "Nyse Euronext - Euronext Paris"
       ],
-      "lobbying_economic_exposure_score": 0.088,
+      "lobbying_economic_exposure_score": 8,
       "name": "THALES SA",
       "well_known": true,
       "well_known_for": "Defense electronics & aerospace",
@@ -716,7 +729,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 18
     },
     {
       "id": 14,
@@ -765,7 +779,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 3
     },
     {
       "id": 15,
@@ -814,7 +829,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 52
     },
     {
       "id": 16,
@@ -863,7 +879,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 3
     },
     {
       "id": 17,
@@ -912,7 +929,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 8
     },
     {
       "id": 18,
@@ -961,7 +979,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 52
     },
     {
       "id": 19,
@@ -1010,7 +1029,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 2
     },
     {
       "id": 20,
@@ -1059,7 +1079,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 4
     },
     {
       "id": 21,
@@ -1108,7 +1129,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 2
     },
     {
       "id": 22,
@@ -1157,7 +1179,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 3
     },
     {
       "id": 23,
@@ -1206,7 +1229,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 25
     },
     {
       "id": 24,
@@ -1255,7 +1279,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 14
     },
     {
       "id": 25,
@@ -1304,7 +1329,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 2
     },
     {
       "id": 26,
@@ -1353,7 +1379,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 59
     },
     {
       "id": 27,
@@ -1402,7 +1429,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 4
     },
     {
       "id": 28,
@@ -1451,7 +1479,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 3
     },
     {
       "id": 29,
@@ -1500,7 +1529,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 5
     },
     {
       "id": 30,
@@ -1549,7 +1579,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 5
     },
     {
       "id": 31,
@@ -1591,7 +1622,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.038,
+      "lobbying_economic_exposure_score": 3,
       "name": "HEICO",
       "well_known": false,
       "well_known_for": null,
@@ -1602,7 +1633,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 2
     },
     {
       "id": 32,
@@ -1640,7 +1672,7 @@
       "traded_in": [
         "Toronto Stock Exchange"
       ],
-      "lobbying_economic_exposure_score": 0.038,
+      "lobbying_economic_exposure_score": 3,
       "name": "CAE INC",
       "well_known": false,
       "well_known_for": null,
@@ -1651,7 +1683,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 2
     },
     {
       "id": 33,
@@ -1689,7 +1722,7 @@
       "traded_in": [
         "Nyse Euronext - Euronext Paris"
       ],
-      "lobbying_economic_exposure_score": 0.063,
+      "lobbying_economic_exposure_score": 6,
       "name": "DASSAULT AVIATION SA",
       "well_known": false,
       "well_known_for": null,
@@ -1700,7 +1733,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 7
     },
     {
       "id": 34,
@@ -1755,7 +1789,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 10
     },
     {
       "id": 35,
@@ -1793,7 +1828,7 @@
       "traded_in": [
         "Xetra"
       ],
-      "lobbying_economic_exposure_score": 0.075,
+      "lobbying_economic_exposure_score": 7,
       "name": "HENSOLDT AG",
       "well_known": false,
       "well_known_for": null,
@@ -1804,7 +1839,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 3
     },
     {
       "id": 36,
@@ -1842,7 +1878,7 @@
       "traded_in": [
         "Tokyo Stock Exchange"
       ],
-      "lobbying_economic_exposure_score": 0.001,
+      "lobbying_economic_exposure_score": 1,
       "name": "NEC",
       "well_known": false,
       "well_known_for": null,
@@ -1853,7 +1889,8 @@
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 2
     },
     {
       "id": 38,
@@ -1894,7 +1931,7 @@
       "traded_in": [
         "NASDAQ"
       ],
-      "lobbying_economic_exposure_score": 0.688,
+      "lobbying_economic_exposure_score": 61,
       "name": "Alphabet",
       "well_known": true,
       "well_known_for": "Search, cloud & Android (Google)",
@@ -1905,7 +1942,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 39,
@@ -1946,7 +1984,7 @@
       "traded_in": [
         "NASDAQ"
       ],
-      "lobbying_economic_exposure_score": 0.9,
+      "lobbying_economic_exposure_score": 100,
       "name": "Amazon",
       "well_known": true,
       "well_known_for": "E-commerce & AWS cloud",
@@ -1957,7 +1995,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 41,
@@ -2000,7 +2039,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.038,
+      "lobbying_economic_exposure_score": 3,
       "name": "Caterpillar Inc.",
       "well_known": true,
       "well_known_for": "Construction & mining equipment",
@@ -2011,7 +2050,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 43,
@@ -2052,7 +2092,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.113,
+      "lobbying_economic_exposure_score": 10,
       "name": "Ford Motor Company",
       "well_known": true,
       "well_known_for": "Automotive manufacturing",
@@ -2063,7 +2103,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 44,
@@ -2105,7 +2146,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.025,
+      "lobbying_economic_exposure_score": 2,
       "name": "General Motors",
       "well_known": true,
       "well_known_for": "Automotive manufacturing",
@@ -2116,7 +2157,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 45,
@@ -2157,7 +2199,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.05,
+      "lobbying_economic_exposure_score": 4,
       "name": "Hewlett Packard Enterprise",
       "well_known": true,
       "well_known_for": "Enterprise servers & hybrid cloud",
@@ -2168,7 +2210,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 46,
@@ -2204,7 +2247,7 @@
       "lobbying_cost_EU": 1750000,
       "lobbying_costs_year": 2025,
       "traded_in": [],
-      "lobbying_economic_exposure_score": 0.18,
+      "lobbying_economic_exposure_score": 19,
       "name": "IBM",
       "well_known": true,
       "well_known_for": "Enterprise IT & consulting",
@@ -2215,7 +2258,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 47,
@@ -2259,7 +2303,7 @@
       "traded_in": [
         "NASDAQ"
       ],
-      "lobbying_economic_exposure_score": 0.875,
+      "lobbying_economic_exposure_score": 78,
       "name": "Microsoft",
       "well_known": true,
       "well_known_for": "Cloud computing & Office software",
@@ -2270,7 +2314,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 48,
@@ -2314,7 +2359,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.038,
+      "lobbying_economic_exposure_score": 3,
       "name": "Motorola Solutions",
       "well_known": true,
       "well_known_for": "Public-safety communications",
@@ -2325,7 +2370,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 49,
@@ -2367,7 +2413,7 @@
       "traded_in": [
         "NYSE"
       ],
-      "lobbying_economic_exposure_score": 0.038,
+      "lobbying_economic_exposure_score": 3,
       "name": "Oracle Corporation",
       "well_known": true,
       "well_known_for": "Enterprise database & cloud software",
@@ -2378,7 +2424,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 50,
@@ -2418,7 +2465,7 @@
       "traded_in": [
         "NASDAQ"
       ],
-      "lobbying_economic_exposure_score": 0.013,
+      "lobbying_economic_exposure_score": 1,
       "name": "Palantir Technologies",
       "well_known": true,
       "well_known_for": "Data analytics & defense software",
@@ -2429,7 +2476,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 51,
@@ -2472,7 +2520,7 @@
       "traded_in": [
         "Xetra"
       ],
-      "lobbying_economic_exposure_score": 0.438,
+      "lobbying_economic_exposure_score": 39,
       "name": "Siemens",
       "well_known": true,
       "well_known_for": "Industrial technology & automation",
@@ -2483,7 +2531,8 @@
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
       "basis_note": null,
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 52,
@@ -2523,7 +2572,7 @@
       "traded_in": [
         "Tokyo Stock Exchange"
       ],
-      "lobbying_economic_exposure_score": 0.088,
+      "lobbying_economic_exposure_score": 8,
       "name": "TOYOTA MOTOR",
       "well_known": true,
       "well_known_for": "Automotive manufacturing",
@@ -2534,7 +2583,8 @@
       "index_held": true,
       "military_revenue_source": null,
       "arms_disclosure_status": "not_disclosed",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": null
     },
     {
       "id": 53,
@@ -2590,7 +2640,8 @@
       "index_held": true,
       "military_revenue_source": "SIPRI Top 100 2024",
       "arms_disclosure_status": "sipri_quantified",
-      "inclusion_note": null
+      "inclusion_note": null,
+      "military_economic_exposure_score": 8
     }
   ]
 }
