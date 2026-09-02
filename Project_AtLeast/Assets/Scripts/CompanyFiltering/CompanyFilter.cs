@@ -47,9 +47,8 @@ public static class CompanyFilter
 
     static bool MatchesLobbying(Organization org, float threshold)
     {
-        // Null / n/d always passes this axis. Dial 0 means only n/d;
-        // any real score (including 0) requires dial > 0 and score <= dial.
-        if (!org.lobbying_economic_exposure_score.HasValue)
+        // Null / 0 is n/d and always passes this axis. Dial 0 keeps only n/d.
+        if (IsUndisclosed(org.lobbying_economic_exposure_score))
             return true;
         return threshold > 0f
             && org.lobbying_economic_exposure_score.Value <= threshold;
@@ -57,9 +56,14 @@ public static class CompanyFilter
 
     static bool MatchesMilitary(Organization org, float threshold)
     {
-        if (!org.military_economic_exposure_score.HasValue)
+        if (IsUndisclosed(org.military_economic_exposure_score))
             return true;
         return threshold > 0f
             && org.military_economic_exposure_score.Value <= threshold;
+    }
+
+    static bool IsUndisclosed(float? score)
+    {
+        return !score.HasValue || score.Value <= 0f;
     }
 }

@@ -55,11 +55,32 @@ public class EuroDialReadoutTests
     }
 
     [Test]
-    public void ToHundred_ScalesUnitIntervalScoresOntoTheDial()
+    public void FromAmount_NullOrZeroIsUndisclosed_MaxMapsToOneHundred()
     {
-        Assert.AreEqual(10f, ExposureScore.ToHundred(0.1f));
-        Assert.AreEqual(100f, ExposureScore.ToHundred(1f));
-        Assert.AreEqual(52f, ExposureScore.ToHundred(52f));
-        Assert.IsNull(ExposureScore.ToHundred(null));
+        Assert.IsNull(ExposureScore.FromAmount(null, 8_000_000));
+        Assert.IsNull(ExposureScore.FromAmount(0, 8_000_000));
+        Assert.IsNull(ExposureScore.FromAmount(4_000_000, 0));
+        Assert.AreEqual(50f, ExposureScore.FromAmount(4_000_000, 8_000_000));
+        Assert.AreEqual(100f, ExposureScore.FromAmount(8_000_000, 8_000_000));
+    }
+
+    [Test]
+    public void AssignFromAmounts_WritesLinearScoresAndLeavesNulls()
+    {
+        var companies = new List<Organization>
+        {
+            new Organization { lobbying_cost_EU = null, military_revenue_2024_amount = 32_325_000_000 },
+            new Organization { lobbying_cost_EU = 4_000_000, military_revenue_2024_amount = null },
+            new Organization { lobbying_cost_EU = 8_000_000, military_revenue_2024_amount = 64_650_000_000 }
+        };
+
+        ExposureScore.AssignFromAmounts(companies, 8_000_000, 64_650_000_000);
+
+        Assert.IsNull(companies[0].lobbying_economic_exposure_score);
+        Assert.AreEqual(50f, companies[0].military_economic_exposure_score);
+        Assert.AreEqual(50f, companies[1].lobbying_economic_exposure_score);
+        Assert.IsNull(companies[1].military_economic_exposure_score);
+        Assert.AreEqual(100f, companies[2].lobbying_economic_exposure_score);
+        Assert.AreEqual(100f, companies[2].military_economic_exposure_score);
     }
 }

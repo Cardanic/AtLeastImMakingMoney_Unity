@@ -91,21 +91,8 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
         _filtered = new List<Organization>();
         _loaded = true;
         HasFiltered = false;
-        NormalizeLoadedScores(_all);
         MaxLobbyingCostEU = EuroDialReadout.MaxOf(_all, o => o.lobbying_cost_EU);
         MaxMilitaryRevenue2024Euro = EuroDialReadout.MaxOf(_all, o => o.MilitaryRevenue2024Numeric);
-    }
-
-    static void NormalizeLoadedScores(List<Organization> companies)
-    {
-        for (int i = 0; i < companies.Count; i++)
-        {
-            Organization org = companies[i];
-            if (!org.military_economic_exposure_score.HasValue)
-                org.military_economic_exposure_score = org.arms_revenue_magnitude_score;
-            org.lobbying_economic_exposure_score = ExposureScore.ToHundred(org.lobbying_economic_exposure_score);
-            org.military_economic_exposure_score = ExposureScore.ToHundred(org.military_economic_exposure_score);
-        }
     }
 
     /// <summary>

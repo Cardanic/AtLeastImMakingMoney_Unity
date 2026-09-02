@@ -50,8 +50,10 @@ public class CompanyFilterTests
         var atFifty = LobbyingOnly(50f);
 
         Assert.IsTrue(CompanyFilter.Passes(CompanyTestFixtures.Org(1), atZero));
-        Assert.IsFalse(CompanyFilter.Passes(
+        Assert.IsTrue(CompanyFilter.Passes(
             CompanyTestFixtures.Org(2, lobbyScore: 0f), atZero));
+        Assert.IsFalse(CompanyFilter.Passes(
+            CompanyTestFixtures.Org(6, lobbyScore: 1f), atZero));
         Assert.IsTrue(CompanyFilter.Passes(
             CompanyTestFixtures.Org(3, lobbyScore: 0f), atFifty));
         Assert.IsTrue(CompanyFilter.Passes(
@@ -67,8 +69,10 @@ public class CompanyFilterTests
         var atTwentyFive = MilitaryOnly(25f);
 
         Assert.IsTrue(CompanyFilter.Passes(CompanyTestFixtures.Org(1), atZero));
-        Assert.IsFalse(CompanyFilter.Passes(
+        Assert.IsTrue(CompanyFilter.Passes(
             CompanyTestFixtures.Org(2, militaryScore: 0f), atZero));
+        Assert.IsFalse(CompanyFilter.Passes(
+            CompanyTestFixtures.Org(5, militaryScore: 1f), atZero));
         Assert.IsTrue(CompanyFilter.Passes(
             CompanyTestFixtures.Org(3, militaryScore: 25f), atTwentyFive));
         Assert.IsFalse(CompanyFilter.Passes(
