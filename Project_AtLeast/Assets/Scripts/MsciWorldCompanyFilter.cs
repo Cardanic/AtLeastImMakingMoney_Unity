@@ -56,7 +56,7 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
     /// <summary>Highest <c>lobbying_cost_EU</c> in the dataset; 0 when nothing is disclosed.</summary>
     public double MaxLobbyingCostEU { get; private set; }
 
-    /// <summary>Highest <c>military_revenue_2024_euro</c> in the dataset; 0 when nothing is disclosed.</summary>
+    /// <summary>Highest 2024 military revenue in the dataset (USD amount, else euro); 0 when nothing is disclosed.</summary>
     public double MaxMilitaryRevenue2024Euro { get; private set; }
 
     public event Action<IReadOnlyList<Organization>> Filtered;
@@ -91,8 +91,21 @@ public sealed class MsciWorldCompanyFilter : MonoBehaviour, ICompanyFilterSource
         _filtered = new List<Organization>();
         _loaded = true;
         HasFiltered = false;
+        NormalizeLoadedScores(_all);
         MaxLobbyingCostEU = EuroDialReadout.MaxOf(_all, o => o.lobbying_cost_EU);
-        MaxMilitaryRevenue2024Euro = EuroDialReadout.MaxOf(_all, o => o.military_revenue_2024_euro);
+        MaxMilitaryRevenue2024Euro = EuroDialReadout.MaxOf(_all, o => o.MilitaryRevenue2024Numeric);
+    }
+
+    static void NormalizeLoadedScores(List<Organization> companies)
+    {
+        for (int i = 0; i < companies.Count; i++)
+        {
+            Organization org = companies[i];
+            if (!org.military_economic_exposure_score.HasValue)
+                org.military_economic_exposure_score = org.arms_revenue_magnitude_score;
+            org.lobbying_economic_exposure_score = ExposureScore.ToHundred(org.lobbying_economic_exposure_score);
+            org.military_economic_exposure_score = ExposureScore.ToHundred(org.military_economic_exposure_score);
+        }
     }
 
     /// <summary>

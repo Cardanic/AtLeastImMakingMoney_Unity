@@ -12,7 +12,8 @@ public static class EuroDialReadout
         float minValue,
         float maxValue,
         double datasetMax,
-        string unavailableText = "n/d")
+        string unavailableText = "n/d",
+        string currencySymbol = "€")
     {
         if (datasetMax <= 0.0)
             return Math.Round(dialValue).ToString("0");
@@ -22,7 +23,7 @@ public static class EuroDialReadout
 
         double span = maxValue - minValue;
         double fraction = span > 0.0 ? (dialValue - minValue) / span : 0.0;
-        return CompactEuroFormat.Format(fraction * datasetMax);
+        return CompactEuroFormat.Format(fraction * datasetMax, currencySymbol);
     }
 
     public static double MaxOf(IReadOnlyList<Organization> companies, Func<Organization, double?> selector)

@@ -96,7 +96,7 @@ public sealed class IntegerSliderLabel : MonoBehaviour
             : filter.MaxMilitaryRevenue2024Euro;
 
         if (maxLabel != null && _datasetMax > 0.0)
-            maxLabel.text = CompactEuroFormat.Format(_datasetMax);
+            maxLabel.text = CompactEuroFormat.Format(_datasetMax, CurrencySymbol);
     }
 
     void UpdateLabel(float value)
@@ -106,6 +106,10 @@ public sealed class IntegerSliderLabel : MonoBehaviour
         if (metric != ParameterEuroMetric.None && !_scaleReady)
             return;
 
-        label.text = EuroDialReadout.CenterLabel(value, minValue, maxValue, _datasetMax, unavailableText);
+        label.text = EuroDialReadout.CenterLabel(
+            value, minValue, maxValue, _datasetMax, unavailableText, CurrencySymbol);
     }
+
+    string CurrencySymbol =>
+        metric == ParameterEuroMetric.MilitaryRevenue2024 ? "$" : "€";
 }

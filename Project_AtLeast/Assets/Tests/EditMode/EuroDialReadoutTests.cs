@@ -38,6 +38,28 @@ public class EuroDialReadoutTests
         };
 
         Assert.AreEqual(8_000_000, EuroDialReadout.MaxOf(companies, o => o.lobbying_cost_EU));
-        Assert.AreEqual(0.0, EuroDialReadout.MaxOf(companies, o => o.military_revenue_2024_euro));
+        Assert.AreEqual(0.0, EuroDialReadout.MaxOf(companies, o => o.MilitaryRevenue2024Numeric));
+    }
+
+    [Test]
+    public void MaxOf_UsesMilitaryAmountWhenEuroFieldIsMissing()
+    {
+        var companies = new List<Organization>
+        {
+            new Organization { military_revenue_2024_amount = 30_550_000_000 },
+            new Organization { military_revenue_2024_amount = 64_650_000_000 }
+        };
+
+        Assert.AreEqual(64_650_000_000, EuroDialReadout.MaxOf(companies, o => o.MilitaryRevenue2024Numeric));
+        Assert.AreEqual("32.3B$", EuroDialReadout.CenterLabel(50f, 0f, 100f, 64_650_000_000, "n/d", "$"));
+    }
+
+    [Test]
+    public void ToHundred_ScalesUnitIntervalScoresOntoTheDial()
+    {
+        Assert.AreEqual(10f, ExposureScore.ToHundred(0.1f));
+        Assert.AreEqual(100f, ExposureScore.ToHundred(1f));
+        Assert.AreEqual(52f, ExposureScore.ToHundred(52f));
+        Assert.IsNull(ExposureScore.ToHundred(null));
     }
 }
