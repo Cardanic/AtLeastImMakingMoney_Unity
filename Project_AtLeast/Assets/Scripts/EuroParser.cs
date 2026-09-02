@@ -6,7 +6,7 @@ public static class EuroParser
     public static float ParseEuroAmount(string raw)
     {
         if (string.IsNullOrEmpty(raw)) return 0f;
-        string clean = raw.Replace("€", "").Replace(".", "").Replace("+", "").Trim();
+        string clean = raw.Replace("€", "").Replace("$", "").Replace(".", "").Replace("+", "").Trim();
         float.TryParse(clean, NumberStyles.Any, CultureInfo.InvariantCulture, out float result);
         return result;
     }

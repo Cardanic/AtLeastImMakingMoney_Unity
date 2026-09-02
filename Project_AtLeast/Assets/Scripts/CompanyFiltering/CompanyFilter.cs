@@ -23,6 +23,7 @@ public static class CompanyFilter
                 filtered.Add(all[i]);
         }
 
+        SortByTotalRevenue2025Desc(filtered);
         return filtered;
     }
 
@@ -45,11 +46,32 @@ public static class CompanyFilter
         return true;
     }
 
+    /// <summary>Highest <c>total_revenue_2025_amount</c> first; missing amounts last.</summary>
+    public static void SortByTotalRevenue2025Desc(List<Organization> companies)
+    {
+        if (companies == null || companies.Count < 2)
+            return;
+
+        companies.Sort(CompareTotalRevenue2025Desc);
+    }
+
+    static int CompareTotalRevenue2025Desc(Organization a, Organization b)
+    {
+        double aAmount = a?.total_revenue_2025_amount ?? double.MinValue;
+        double bAmount = b?.total_revenue_2025_amount ?? double.MinValue;
+        int byAmount = bAmount.CompareTo(aAmount);
+        if (byAmount != 0)
+            return byAmount;
+
+        int aId = a?.id ?? 0;
+        int bId = b?.id ?? 0;
+        return aId.CompareTo(bId);
+    }
+
     static bool MatchesLobbying(Organization org, float threshold)
     {
-        // Null / n/d always passes this axis. Dial 0 means only n/d;
-        // any real score (including 0) requires dial > 0 and score <= dial.
-        if (!org.lobbying_economic_exposure_score.HasValue)
+        // Null / 0 is n/d and always passes this axis. Dial 0 keeps only n/d.
+        if (IsUndisclosed(org.lobbying_economic_exposure_score))
             return true;
         return threshold > 0f
             && org.lobbying_economic_exposure_score.Value <= threshold;
@@ -57,9 +79,14 @@ public static class CompanyFilter
 
     static bool MatchesMilitary(Organization org, float threshold)
     {
-        if (!org.military_economic_exposure_score.HasValue)
+        if (IsUndisclosed(org.military_economic_exposure_score))
             return true;
         return threshold > 0f
             && org.military_economic_exposure_score.Value <= threshold;
+    }
+
+    static bool IsUndisclosed(float? score)
+    {
+        return !score.HasValue || score.Value <= 0f;
     }
 }

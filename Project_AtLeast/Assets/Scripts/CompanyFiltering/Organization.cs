@@ -31,17 +31,24 @@ public sealed class Organization
     public double? total_revenue_2024_euro;
     public string total_revenue_2025;
     public double? total_revenue_2025_euro;
+    public double? total_revenue_2025_amount;
     public string total_revenue_2023;
     public double? total_revenue_2023_euro;
     public string total_revenue_change;
     public double? arms_revenue_pct_of_total;
     public string military_revenue_2024;
     public double? military_revenue_2024_euro;
+    public double? military_revenue_2024_amount;
     public string military_revenue_2023;
     public double? military_revenue_2023_euro;
+    public double? military_revenue_2023_amount;
     public double? lobbying_cost_EU;
     public int? lobbying_costs_year;
     public List<string> traded_in;
     public float? lobbying_economic_exposure_score;
     public float? military_economic_exposure_score;
+    public float? arms_revenue_magnitude_score;
+
+    public double? MilitaryRevenue2024Numeric =>
+        military_revenue_2024_amount ?? military_revenue_2024_euro;
 }

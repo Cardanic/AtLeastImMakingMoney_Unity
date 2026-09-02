@@ -11,6 +11,8 @@ public class CompanyMapObject : MonoBehaviour
     public void Bind(Organization org)
     {
         BoundData = org;
+        if (nameText == null)
+            nameText = GetComponentInChildren<TextMeshPro>(true);
         if (nameText != null)
             nameText.text = org.company_name;
     }
