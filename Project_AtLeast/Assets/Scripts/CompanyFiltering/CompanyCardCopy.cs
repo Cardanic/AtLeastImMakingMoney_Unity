@@ -27,7 +27,7 @@ public static class CompanyCardCopy
             return Unavailable;
         return CompactEuroFormat.Format(
             org.total_revenue_2025_amount.Value,
-            CurrencyFromRaw(org.total_revenue_2025));
+            CurrencySymbol(org.reporting_currency, org.total_revenue_2025));
     }
 
     public static string MilitaryRevenue2024(Organization org)
@@ -52,14 +52,40 @@ public static class CompanyCardCopy
         return label.PadRight(LabelWidth) + value;
     }
 
-    static string CurrencyFromRaw(string raw)
+    /// <summary>
+    /// Symbol for the company's own reporting currency (total_revenue_* is never converted).
+    /// Prefers the ISO code in <c>reporting_currency</c>; falls back to sniffing the formatted
+    /// string for rows that predate that field. Never silently defaults a yen or krone figure to €.
+    /// </summary>
+    public static string CurrencySymbol(string reportingCurrency, string raw)
     {
+        switch ((reportingCurrency ?? string.Empty).Trim().ToUpperInvariant())
+        {
+            case "USD": return "$";
+            case "EUR": return "€";
+            case "GBP": return "£";
+            case "JPY": return "¥";
+            case "CAD": return " C$";
+            case "": break;
+            default: return " " + reportingCurrency.Trim().ToUpperInvariant(); // NOK, SEK, CHF, ILS …
+        }
+
         if (string.IsNullOrWhiteSpace(raw))
             return "€";
+        if (raw.Contains("C$"))
+            return " C$";
         if (raw.Contains("$"))
             return "$";
         if (raw.Contains("£"))
             return "£";
-        return "€";
+        if (raw.Contains("¥"))
+            return "¥";
+        if (raw.Contains("€"))
+            return "€";
+        string trimmed = raw.Trim();
+        if (trimmed.Length < 3)
+            return "€";
+        string tail = trimmed.Substring(trimmed.Length - 3);
+        return char.IsLetter(tail[0]) ? " " + tail.ToUpperInvariant() : "€";
     }
 }

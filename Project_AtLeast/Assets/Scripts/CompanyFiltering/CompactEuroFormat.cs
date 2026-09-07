@@ -1,12 +1,14 @@
 using System;
 using System.Globalization;
 
-/// <summary>Compact money strings such as <c>4M€</c>, <c>64.7B$</c>, <c>500€</c>.</summary>
+/// <summary>Compact money strings such as <c>4M€</c>, <c>64.7B$</c>, <c>50.7T¥</c>, <c>500€</c>.</summary>
 public static class CompactEuroFormat
 {
     public static string Format(double amount, string currencySymbol = "€")
     {
         double magnitude = Math.Abs(amount);
+        if (magnitude >= 1e12)
+            return Compact(amount / 1e12, "T", currencySymbol);
         if (magnitude >= 1e9)
             return Compact(amount / 1e9, "B", currencySymbol);
         if (magnitude >= 1e6)

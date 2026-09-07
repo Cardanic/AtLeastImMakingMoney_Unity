@@ -27,6 +27,7 @@ public sealed class Organization
     public string sub_industry;
     public string stock_ticker;
     public string country;
+    public string reporting_currency;   // ISO code of total_revenue_* (USD, EUR, GBP, JPY, NOK, CAD …)
     public string total_revenue_2024;
     public double? total_revenue_2024_euro;
     public string total_revenue_2025;
