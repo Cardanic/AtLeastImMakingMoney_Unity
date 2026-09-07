@@ -7,7 +7,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(ScrollRect))]
 public class PortfolioAutoScroll : MonoBehaviour
 {
-    [SerializeField] float pixelsPerSecond = 28f;
+    [SerializeField] bool hideVerticalScrollbar = true;
+    [SerializeField] float pixelsPerSecond = 14f;
     [SerializeField] float pauseAtEndsSeconds = 1.4f;
 
     ScrollRect _scroll;
@@ -17,6 +18,7 @@ public class PortfolioAutoScroll : MonoBehaviour
     void Awake()
     {
         _scroll = GetComponent<ScrollRect>();
+        ApplyScrollbarVisibility();
     }
 
     void OnEnable()
@@ -82,5 +84,20 @@ public class PortfolioAutoScroll : MonoBehaviour
             return 0f;
 
         return content.rect.height - viewport.rect.height;
+    }
+
+    void ApplyScrollbarVisibility()
+    {
+        if (_scroll == null || !hideVerticalScrollbar)
+            return;
+
+        Scrollbar bar = _scroll.verticalScrollbar;
+        if (bar == null)
+            return;
+
+        // Detach first so ScrollRect stops toggling the bar back on during layout,
+        // then hide the object.
+        _scroll.verticalScrollbar = null;
+        bar.gameObject.SetActive(false);
     }
 }
