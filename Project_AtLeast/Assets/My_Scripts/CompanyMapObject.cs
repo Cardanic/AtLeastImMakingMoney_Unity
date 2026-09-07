@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -10,6 +11,15 @@ public class CompanyMapObject : MonoBehaviour
     public bool orbitClockwise = true;
 
     public Organization BoundData { get; private set; }
+
+    /// <summary>Company display name shown by the detection HUD.</summary>
+    public string DisplayName =>
+        BoundData != null && !string.IsNullOrEmpty(BoundData.company_name)
+            ? BoundData.company_name
+            : name;
+
+    /// <summary>Readout rows for the detection HUD. Populated from the data layer.</summary>
+    public List<DetectionField> DetectionFields { get; } = new List<DetectionField>();
 
     public void Bind(Organization org)
     {
