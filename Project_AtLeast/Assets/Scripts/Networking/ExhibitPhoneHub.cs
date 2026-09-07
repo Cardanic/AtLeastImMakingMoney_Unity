@@ -16,12 +16,17 @@ public sealed class ExhibitPhoneHub : IDisposable
         public float PhoneTimeoutSeconds;
         public bool LogSends;
         public int MaxPhones;
+        public bool ShufflePhoneOrder;
+        public float RotateSeconds;
+        public int RotateStep;
+        public int RotateSeed;
     }
 
     readonly Settings _settings;
     readonly UdpLanTransport _transport;
     readonly LanBroadcastDirectory _broadcasts;
     readonly PhoneRoster _roster;
+    readonly PhoneCompanyAssignment _assignment;
     readonly Action<string> _log;
 
     int[] _pendingIds;
@@ -39,6 +44,12 @@ public sealed class ExhibitPhoneHub : IDisposable
         _transport = new UdpLanTransport(settings.Port, log);
         _broadcasts = new LanBroadcastDirectory();
         _roster = new PhoneRoster(settings.MaxPhones > 0 ? settings.MaxPhones : 32);
+        _assignment = new PhoneCompanyAssignment(
+            settings.ShufflePhoneOrder,
+            settings.RotateSeconds,
+            settings.RotateStep,
+            settings.RotateSeed
+        );
     }
 
     public int ConnectedPhoneCount => _roster.OnlineCount;
@@ -70,6 +81,9 @@ public sealed class ExhibitPhoneHub : IDisposable
             _pendingIds = null;
             SendFilter(ids, incrementSeq: true, now);
         }
+
+        if (_assignment.Tick(now, _roster.OnlineCount))
+            RotateAssignments(now);
 
         if (now >= _nextDiscoverAt)
         {
@@ -172,7 +186,7 @@ public sealed class ExhibitPhoneHub : IDisposable
         if (_lastSentIds == null || _seq <= 0 || phone == null)
             return;
 
-        var assigned = CompanyIdProtocol.IdsForPhoneSlot(_lastSentIds, phone.Slot);
+        var assigned = _assignment.IdForSlot(phone.Slot);
         var bytes = CompanyIdProtocol.ToBytes(
             CompanyIdProtocol.Filter(_seq, assigned, phone.DeviceId)
         );
@@ -185,6 +199,16 @@ public sealed class ExhibitPhoneHub : IDisposable
                 $"bytes={bytes.Length} filteredTotal={_lastSentIds.Length}"
             );
         }
+    }
+
+    void RotateAssignments(float now)
+    {
+        if (_lastSentIds == null || _seq <= 0)
+            return;
+
+        _seq++;
+        _nextHeartbeatAt = now + _settings.HeartbeatSeconds;
+        _roster.ForEachOnline(phone => PushAssignedFilter(phone, "rotate", forceLog: true, now));
     }
 
     void HeartbeatOnlinePhones(float now)
@@ -218,12 +242,13 @@ public sealed class ExhibitPhoneHub : IDisposable
         }
 
         _lastSentIds = ids;
+        _assignment.SetIds(ids, now);
         _nextHeartbeatAt = now + _settings.HeartbeatSeconds;
 
         int sent = 0;
         _roster.ForEachOnline(phone =>
         {
-            var assigned = CompanyIdProtocol.IdsForPhoneSlot(ids, phone.Slot);
+            var assigned = _assignment.IdForSlot(phone.Slot);
             var bytes = CompanyIdProtocol.ToBytes(
                 CompanyIdProtocol.Filter(_seq, assigned, phone.DeviceId)
             );

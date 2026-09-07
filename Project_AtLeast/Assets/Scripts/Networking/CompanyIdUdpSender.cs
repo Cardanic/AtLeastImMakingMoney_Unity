@@ -33,6 +33,23 @@ public sealed class CompanyIdUdpSender : MonoBehaviour
     [SerializeField]
     bool logSends = true;
 
+    [Header("Phone assignment")]
+    [Tooltip("Shuffle the filtered list before handing companies to phones, so it is not always the first N ids that show.")]
+    [SerializeField]
+    bool shufflePhoneOrder = true;
+
+    [Tooltip("When the filter has more companies than phones, rotate which companies are shown every N seconds. 0 disables rotation.")]
+    [SerializeField, Min(0f)]
+    float rotateSeconds = 20f;
+
+    [Tooltip("Companies to advance per rotation. 0 = advance by the number of connected phones (every phone jumps to a fresh company).")]
+    [SerializeField, Min(0)]
+    int rotateStep = 0;
+
+    [Tooltip("Fixed shuffle seed for a reproducible order. 0 = fresh random order on every filter change.")]
+    [SerializeField]
+    int rotateSeed = 0;
+
     ExhibitPhoneHub _hub;
     FilteredCompanyListener _listener;
 
@@ -71,7 +88,11 @@ public sealed class CompanyIdUdpSender : MonoBehaviour
                 DiscoverIntervalSeconds = discoverIntervalSeconds,
                 PhoneTimeoutSeconds = phoneTimeoutSeconds,
                 LogSends = logSends,
-                MaxPhones = 32
+                MaxPhones = 32,
+                ShufflePhoneOrder = shufflePhoneOrder,
+                RotateSeconds = rotateSeconds,
+                RotateStep = rotateStep,
+                RotateSeed = rotateSeed
             },
             message => Debug.Log($"{nameof(CompanyIdUdpSender)}: {message}")
         );
